@@ -1,23 +1,159 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/temp.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scenes/BackgroundColorSelection.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/ToolsUI.cs" type="Script" id=2]
+[ext_resource path="res://assets/ToolsUIBasic.tres" type="Theme" id=3]
+[ext_resource path="res://scenes/TextEditor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ZoomButtons.tscn" type="PackedScene" id=5]
 
-[sub_resource type="Theme" id=1]
-default_font = ExtResource( 1 )
-OptionButton/fonts/font = ExtResource( 1 )
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/Louis George Cafe Bold.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+font_data = SubResource( 1 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+/fonts/font = SubResource( 2 )
 
 [node name="ToolsUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
+theme = ExtResource( 3 )
+script = ExtResource( 2 )
 
-[node name="FrameSizeSelection" type="OptionButton" parent="."]
-margin_left = 32.0
-margin_top = 24.0
-margin_right = 534.0
-margin_bottom = 96.0
-theme = SubResource( 1 )
-custom_fonts/font = ExtResource( 1 )
+[node name="ToolContainer" type="HBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -518.0
+margin_top = 48.0
+margin_right = 518.0
+margin_bottom = 402.0
+custom_constants/separation = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ToolContainer"]
+margin_right = 450.0
+margin_bottom = 354.0
+custom_constants/separation = 30
+
+[node name="FrameSizeSelection" type="OptionButton" parent="ToolContainer/VBoxContainer" groups=["framesize"]]
+unique_name_in_owner = true
+margin_right = 450.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 450, 0 )
 text = "1:1 (1080x1080)"
 items = [ "1:1 (1080x1080)", null, false, 0, null, "9:16 (1080x1920)", null, false, 1, null ]
 selected = 0
+
+[node name="TextEditor" parent="ToolContainer/VBoxContainer" instance=ExtResource( 4 )]
+unique_name_in_owner = true
+margin_top = 76.0
+margin_right = 450.0
+margin_bottom = 332.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ToolContainer"]
+margin_left = 465.0
+margin_right = 715.0
+margin_bottom = 354.0
+custom_constants/separation = 30
+
+[node name="IncipitSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+unique_name_in_owner = true
+margin_right = 250.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 250, 0 )
+align = 1
+icon_align = 1
+items = [ "", null, false, 0, null, "comunque...", null, false, 1, null, "e comunque...", null, false, 2, null, "o comunque...", null, false, 3, null ]
+selected = 0
+
+[node name="ClosingSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+unique_name_in_owner = true
+margin_top = 76.0
+margin_right = 250.0
+margin_bottom = 122.0
+rect_min_size = Vector2( 250, 0 )
+align = 1
+icon_align = 1
+items = [ "", null, false, 0, null, "-- INSERT --", null, false, 1, null, ":wq", null, false, 2, null ]
+selected = 0
+
+[node name="FontSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+unique_name_in_owner = true
+margin_top = 152.0
+margin_right = 250.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 250, 0 )
+align = 1
+icon_align = 1
+items = [ "", null, false, 0, null, "-- INSERT --", null, false, 1, null, ":wq", null, false, 2, null ]
+selected = 0
+
+[node name="FontSizeSpinBox" type="SpinBox" parent="ToolContainer/VBoxContainer2"]
+unique_name_in_owner = true
+margin_top = 228.0
+margin_right = 250.0
+margin_bottom = 278.0
+min_value = 18.0
+max_value = 50.0
+value = 18.0
+rounded = true
+align = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="ToolContainer"]
+margin_left = 730.0
+margin_right = 1036.0
+margin_bottom = 354.0
+custom_constants/separation = 25
+
+[node name="BackgroundColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 306.0
+margin_bottom = 51.0
+_title = "Background Color"
+
+[node name="FontColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 76.0
+margin_right = 306.0
+margin_bottom = 127.0
+_title = "Font Color"
+
+[node name="ZoomButtons" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 5 )]
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -467.0
+margin_top = -460.0
+margin_right = 467.0
+margin_bottom = 460.0
+rect_min_size = Vector2( 400, 140 )
+theme = SubResource( 3 )
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.cmqtxt" )
+show_hidden_files = true
+
+[connection signal="item_selected" from="ToolContainer/VBoxContainer/FrameSizeSelection" to="." method="_on_FrameSizeSelection_item_selected"]
+[connection signal="LoadPressed" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_LoadPressed"]
+[connection signal="UpdateText" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_UpdateText"]
+[connection signal="item_selected" from="ToolContainer/VBoxContainer2/IncipitSelection" to="." method="_on_IncipitSelection_item_selected"]
+[connection signal="item_selected" from="ToolContainer/VBoxContainer2/ClosingSelection" to="." method="_on_ClosingSelection_item_selected"]
+[connection signal="item_selected" from="ToolContainer/VBoxContainer2/FontSelection" to="." method="_on_ClosingSelection_item_selected"]
+[connection signal="value_changed" from="ToolContainer/VBoxContainer2/FontSizeSpinBox" to="." method="_on_FontSize_value_changed"]
+[connection signal="Selected" from="ToolContainer/VBoxContainer3/BackgroundColorSelection" to="." method="_on_BackgroundColorSelection_Selected"]
+[connection signal="Selected" from="ToolContainer/VBoxContainer3/FontColorSelection" to="." method="_on_FontColorSelection_Selected"]
+[connection signal="Changed" from="ToolContainer/VBoxContainer3/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
