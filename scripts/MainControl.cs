@@ -11,11 +11,13 @@ public class MainControl : Control
     {
         _toolsUI = GetNode<ToolsUI>("%ToolsUI");
         _previewUI = GetNode<PreviewUI>("%PreviewUI");
+        _previewUI.UpdateMaxSize(GetNode<Container>("%PreviewContainer").RectSize);
 
         _toolsUI.ConnectTool(this, Globals.Tool.SIZE, nameof(on_ToolsUI_SizeChanged));
         _toolsUI.ConnectTool(this, Globals.Tool.BGCOLOR, nameof(on_ToolsUI_BGColorSelected));
         _toolsUI.ConnectTool(this, Globals.Tool.TEXT, nameof(on_ToolsUI_UpdateText));
         _toolsUI.ConnectTool(this, Globals.Tool.FONTCOLOR, nameof(on_ToolsUI_FontColorSelected));
+        _toolsUI.ConnectTool(this, Globals.Tool.SYMCOLOR, nameof(on_ToolsUI_SymbolColorSelected));
         _toolsUI.ConnectTool(this, Globals.Tool.ZOOM, nameof(on_ToolsUI_Zoom));
     }
 
@@ -31,13 +33,17 @@ public class MainControl : Control
     {
         _previewUI.UpdateTextColor(color);
     }
+    public void on_ToolsUI_SymbolColorSelected(Color color)
+    {
+        _previewUI.UpdateSymbolColor(color);
+    }
     public void on_ToolsUI_UpdateText(TextData textData)
     {
         _previewUI.UpdateText(textData);
     }
-    public void on_ToolsUI_Zoom(bool zoomIn)
+    public void on_ToolsUI_Zoom(bool zoomIn, bool maxime)
     {
-        _previewUI.UpdateZoom(zoomIn);
+        _previewUI.UpdateZoom(zoomIn, maxime);
     }
 
 

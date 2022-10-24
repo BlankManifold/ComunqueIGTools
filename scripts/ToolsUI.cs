@@ -1,34 +1,30 @@
 using Godot;
 
-public class TextData : Godot.Object 
+public class TextData : Godot.Object
 {
     public string Incipit;
     public string Closing;
     public string Main;
     public int Size;
+    public Color Color;
+    public Color SymbolColor;
 
-    public TextData(string incipit, string main, string closing, int size)
+    public TextData(string incipit, string main, string closing, int size, Color color, Color symbolColor)
     {
         Incipit = incipit;
         Closing = closing;
         Main = main;
         Size = size;
+        Color = color;
+        SymbolColor = symbolColor;
     }
 }
 public class ToolsUI : Control
 {
-    // [Export]
-    // private Godot.Collections.Dictionary<Globals.Tool, bool> _toolDict = new Godot.Collections.Dictionary<Globals.Tool, bool>()
-    // {
-    //     {Globals.Tool.SIZE, false},
-    //     {Globals.Tool.TEXT, false},
-    //     {Globals.Tool.BGCOLOR, false},
-    //     {Globals.Tool.CLOSING, false},
-    //     {Globals.Tool.INCIPIT, false},
-    //     {Globals.Tool.FONTCOLOR, false},
-    //     {Globals.Tool.SYMCOLOR, false},
-    //     {Globals.Tool.ZOOM, false}
-    // };
+    public enum FileDialogMode
+    {
+        TXT, PALETTE
+    }
 
     [Export]
     private Godot.Collections.Dictionary<string, Vector2> _sizeDict = new Godot.Collections.Dictionary<string, Vector2>()
@@ -38,14 +34,22 @@ public class ToolsUI : Control
     };
 
 
+
     private OptionButton _sizeSelection;
     private OptionButton _incipitSelection;
     private OptionButton _closingSelection;
+    private OptionButton _templateSelection;
+    private OptionButton _paletteSelection;
+
 
     private FileDialog _fileDialog;
+    private FileDialogMode _fileDialogMode;
+    private PopupPanel _templateNamePanel;
     private TextEditor _textEditor;
 
-    private TextData _textData = new TextData("", "", "", 30);
+    private TextData _textData = new TextData("", "", "", 30, new Color(0f, 0f, 0f), new Color(0f, 0f, 0f));
+    private Color _bgColor = new Color(1f, 1f, 1f);
+
 
 
     [Signal]
@@ -55,11 +59,16 @@ public class ToolsUI : Control
     [Signal]
     delegate void FontColorSelected(Color color);
     [Signal]
+    delegate void SymbolColorSelected(Color color);
+    [Signal]
     delegate void FontSizeChanged(Color color);
     [Signal]
-    delegate void ZoomChanged();
+    delegate void ZoomChanged(bool zoomIn, bool maxime = false);
     [Signal]
     delegate void UpdateText(TextData textData);
+    [Signal]
+    delegate void UpdatePalette(string path);
+
 
 
 
@@ -68,11 +77,18 @@ public class ToolsUI : Control
         _sizeSelection = GetNode<OptionButton>("%FrameSizeSelection");
         _incipitSelection = GetNode<OptionButton>("%IncipitSelection");
         _closingSelection = GetNode<OptionButton>("%ClosingSelection");
+        _templateSelection = GetNode<OptionButton>("%TemplateSelection");
+        _paletteSelection = GetNode<OptionButton>("%PaletteSelection");
 
+        _templateNamePanel = GetNode<PopupPanel>("%TemplateNamePanel");
         _textEditor = GetNode<TextEditor>("%TextEditor");
         _fileDialog = GetNode<FileDialog>("%FileDialog");
+        _fileDialog.CurrentDir = OS.GetSystemDir(OS.SystemDir.Desktop);
 
         GetNode<SpinBox>("%FontSizeSpinBox").Value = _textData.Size;
+
+        LoadResource(Globals.PATHS.PALETTE, Globals.PATHS.PALETTE_DICT, _paletteSelection);
+        LoadResource(Globals.PATHS.TEMPLATE, Globals.PATHS.TEMPLATE_DICT, _templateSelection);
     }
 
 
@@ -95,6 +111,9 @@ public class ToolsUI : Control
                 break;
             case Globals.Tool.FONTCOLOR:
                 Connect(nameof(FontColorSelected), nodeToConnect, targetMethod);
+                break;
+            case Globals.Tool.SYMCOLOR:
+                Connect(nameof(SymbolColorSelected), nodeToConnect, targetMethod);
                 break;
             case Globals.Tool.ZOOM:
                 Connect(nameof(ZoomChanged), nodeToConnect, targetMethod);
@@ -132,7 +151,6 @@ public class ToolsUI : Control
             case Globals.Text.CLOSING:
                 _textData.Closing = text;
                 break;
-
         }
     }
     private void UpdateAllText(string text, Globals.Text textMode)
@@ -142,7 +160,46 @@ public class ToolsUI : Control
 
         EmitSignal(nameof(UpdateText), _textData);
     }
+    private void UpdateFileDialogFilters(string filter)
+    {
+        _fileDialog.Filters = new string[] { filter };
+    }
+    private void AddPalette(string path, string fileName)
+    {
+        Directory dir = new Directory();
+        string resPath = Globals.PATHS.PALETTE + "/" + fileName;
 
+        dir.Copy(path, resPath);
+
+        Globals.PATHS.PALETTE_DICT[fileName] = resPath;
+        _paletteSelection.AddItem(fileName);
+    }
+    private void LoadResource(string path, Godot.Collections.Dictionary<string, string> dict, OptionButton selectionButton)
+    {
+        Directory dir = new Directory();
+        Error err = dir.Open(path);
+        dir.ListDirBegin(true, true);
+
+        if (err == Error.Ok)
+        {
+            string name = dir.GetNext();
+            while (name != "")
+            {
+                dict[name] = path + "/" + name;
+                selectionButton.AddItem(name);
+                name = dir.GetNext();
+            }
+        }
+    }
+    private float GetSizeRatio()
+    {
+        Vector2 ratioVec = _sizeDict[_sizeSelection.Text];
+        return ratioVec.x / ratioVec.y;
+    }
+    private void UpdateSizeSpinBox()
+    {
+        GetNode<SpinBox>("%FontSizeSpinBox").Value = _textData.Size;
+    }
 
 
     public void _on_FrameSizeSelection_item_selected(int idx)
@@ -151,11 +208,18 @@ public class ToolsUI : Control
     }
     public void _on_BackgroundColorSelection_Selected(Color color)
     {
+        _bgColor = color;
         EmitSignal(nameof(BGColorSelected), color);
     }
     public void _on_FontColorSelection_Selected(Color color)
     {
+        _textData.Color = color;
         EmitSignal(nameof(FontColorSelected), color);
+    }
+    public void _on_SymbolColorSelection_Selected(Color color)
+    {
+        _textData.SymbolColor = color;
+        EmitSignal(nameof(SymbolColorSelected), color);
     }
     public void _on_FontSize_value_changed(float value)
     {
@@ -168,11 +232,29 @@ public class ToolsUI : Control
     public void _on_TextEditor_LoadPressed()
     {
         _fileDialog.Popup_();
+        UpdateFileDialogFilters(Globals.RESOURCE_EXT.TXT);
+        _fileDialogMode = FileDialogMode.TXT;
+
+    }
+    public void _on_LoadPalette_button_down()
+    {
+        _fileDialog.Popup_();
+        UpdateFileDialogFilters(Globals.RESOURCE_EXT.PALETTE);
+        _fileDialogMode = FileDialogMode.PALETTE;
     }
     public void _on_FileDialog_file_selected(string path)
     {
-        string text = GetTextFromFile(path);
-        UpdateAllText(text, Globals.Text.MAIN);
+        switch (_fileDialogMode)
+        {
+            case FileDialogMode.TXT:
+                string text = GetTextFromFile(path);
+                UpdateAllText(text, Globals.Text.MAIN);
+                break;
+            case FileDialogMode.PALETTE:
+                AddPalette(path, _fileDialog.CurrentFile);
+                EmitSignal(nameof(UpdatePalette), path);
+                break;
+        }
     }
     public void _on_IncipitSelection_item_selected(int idx)
     {
@@ -184,8 +266,65 @@ public class ToolsUI : Control
         string text = _closingSelection.GetItemText(idx);
         UpdateAllText(text, Globals.Text.CLOSING);
     }
-    public void _on_ZoomButtons_Changed(bool zoomIn)
+    public void _on_ZoomButtons_Changed(bool zoomIn, bool maxime)
     {
-        EmitSignal(nameof(ZoomChanged), zoomIn);
+        EmitSignal(nameof(ZoomChanged), zoomIn, maxime);
     }
+    public void _on_TemplateSelection_item_selected(int idx)
+    {
+        string name = _templateSelection.GetItemText(idx);
+        if (name == "")
+        {
+            return;
+        }
+
+        Resource templateResource = ResourceLoader.Load(Globals.PATHS.TEMPLATE_DICT[name]);
+
+        float ratio = (float)templateResource.Get("frameRatio");
+        string incipit = (string)templateResource.Get("incipit");
+        string closing = (string)templateResource.Get("closing");
+        int fontSize = (int)templateResource.Get("fontSize");
+        _bgColor = (Color)templateResource.Get("bgColor");
+        Color symbolColor = (Color)templateResource.Get("symbolColor");
+        Color fontColor = (Color)templateResource.Get("fontColor");
+
+        EmitSignal(nameof(SizeSelected), new Vector2(ratio, 1));
+        EmitSignal(nameof(BGColorSelected), _bgColor);
+        EmitSignal(nameof(FontColorSelected), fontColor);
+        EmitSignal(nameof(SymbolColorSelected), symbolColor);
+
+        _textData.Size = fontSize;
+        UpdateSizeSpinBox();
+        UpdateAllText(closing, Globals.Text.CLOSING);
+        UpdateAllText(incipit, Globals.Text.INCIPIT);
+    }
+    public void _on_PaletteSelection_item_selected(int idx)
+    {
+        string name = _paletteSelection.GetItemText(idx);
+
+        if (_paletteSelection.GetItemText(idx) == "")
+            return;
+
+
+        EmitSignal(nameof(UpdatePalette), Globals.PATHS.PALETTE_DICT[name]);
+    }
+    public void _on_CreateTemplate_button_down()
+    {
+        _templateNamePanel.Popup_();
+    }
+    public void _on_TemeplateName_text_entered(string name)
+    {
+        _templateNamePanel.Hide();
+
+        GDScript templateResourceScript = (GDScript)GD.Load("res://scripts/TemplateResource.gd");
+        Resource templateResource = (Resource)templateResourceScript.New();
+
+        templateResource.Call("init", 0, name + ".tres", GetSizeRatio(), _bgColor, _textData.Incipit, _textData.Closing, null, _textData.Size, _textData.Color, _textData.SymbolColor);
+
+        string filePath = Globals.PATHS.TEMPLATE + "/" + name + ".tres";
+        Godot.Error err = ResourceSaver.Save(filePath, templateResource);
+        Globals.PATHS.TEMPLATE_DICT[name] = filePath;
+        _templateSelection.AddItem(name);
+    }
+
 }

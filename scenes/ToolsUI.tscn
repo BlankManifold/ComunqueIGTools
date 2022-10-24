@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://scenes/BackgroundColorSelection.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ColorSelection.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/ToolsUI.cs" type="Script" id=2]
 [ext_resource path="res://assets/ToolsUIBasic.tres" type="Theme" id=3]
 [ext_resource path="res://scenes/TextEditor.tscn" type="PackedScene" id=4]
@@ -126,7 +126,74 @@ margin_right = 306.0
 margin_bottom = 127.0
 _title = "Font Color"
 
+[node name="SymbolColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 152.0
+margin_right = 306.0
+margin_bottom = 203.0
+_title = "Symbol Color"
+
 [node name="ZoomButtons" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 5 )]
+margin_top = 228.0
+margin_bottom = 274.0
+
+[node name="TemplateContainer" type="HBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -302.0
+margin_top = -152.0
+margin_right = 318.0
+margin_bottom = -40.0
+custom_constants/separation = 20
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TemplateContainer"]
+margin_right = 300.0
+margin_bottom = 112.0
+custom_constants/separation = 20
+
+[node name="TemplateSelection" type="OptionButton" parent="TemplateContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 300, 40 )
+size_flags_horizontal = 3
+align = 1
+items = [ "", null, false, 0, null ]
+selected = 0
+
+[node name="CreateTemplate" type="Button" parent="TemplateContainer/VBoxContainer"]
+margin_top = 66.0
+margin_right = 300.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 300, 40 )
+text = "Create template"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TemplateContainer"]
+margin_left = 320.0
+margin_right = 620.0
+margin_bottom = 112.0
+custom_constants/separation = 20
+
+[node name="PaletteSelection" type="OptionButton" parent="TemplateContainer/VBoxContainer2"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 300, 40 )
+size_flags_vertical = 0
+align = 1
+items = [ "", null, false, 0, null ]
+selected = 0
+
+[node name="LoadPalette" type="Button" parent="TemplateContainer/VBoxContainer2"]
+margin_top = 66.0
+margin_right = 300.0
+margin_bottom = 112.0
+text = "Add Palette"
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
@@ -134,10 +201,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -467.0
-margin_top = -460.0
-margin_right = 467.0
-margin_bottom = 460.0
+margin_left = -474.0
+margin_top = -400.0
+margin_right = 474.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 400, 140 )
 theme = SubResource( 3 )
 window_title = "Open a File"
@@ -146,6 +213,43 @@ access = 2
 filters = PoolStringArray( "*.cmqtxt" )
 show_hidden_files = true
 
+[node name="TemplateNamePanel" type="PopupPanel" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -382.0
+margin_top = -129.0
+margin_right = 382.0
+margin_bottom = 47.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TemplateNamePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Label" type="Label" parent="TemplateNamePanel/VBoxContainer"]
+margin_right = 756.0
+margin_bottom = 114.0
+size_flags_vertical = 3
+text = "Enter template name (ENTER to confirm)"
+align = 1
+valign = 1
+
+[node name="TemeplateName" type="LineEdit" parent="TemplateNamePanel/VBoxContainer"]
+margin_top = 118.0
+margin_right = 756.0
+margin_bottom = 168.0
+size_flags_vertical = 8
+text = "dshdsaouhsaouhsou"
+
+[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/BackgroundColorSelection" method="_on_ToolsUI_UpdatePalette"]
+[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/FontColorSelection" method="_on_ToolsUI_UpdatePalette"]
+[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/SymbolColorSelection" method="_on_ToolsUI_UpdatePalette"]
 [connection signal="item_selected" from="ToolContainer/VBoxContainer/FrameSizeSelection" to="." method="_on_FrameSizeSelection_item_selected"]
 [connection signal="LoadPressed" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_LoadPressed"]
 [connection signal="UpdateText" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_UpdateText"]
@@ -155,5 +259,11 @@ show_hidden_files = true
 [connection signal="value_changed" from="ToolContainer/VBoxContainer2/FontSizeSpinBox" to="." method="_on_FontSize_value_changed"]
 [connection signal="Selected" from="ToolContainer/VBoxContainer3/BackgroundColorSelection" to="." method="_on_BackgroundColorSelection_Selected"]
 [connection signal="Selected" from="ToolContainer/VBoxContainer3/FontColorSelection" to="." method="_on_FontColorSelection_Selected"]
+[connection signal="Selected" from="ToolContainer/VBoxContainer3/SymbolColorSelection" to="." method="_on_SymbolColorSelection_Selected"]
 [connection signal="Changed" from="ToolContainer/VBoxContainer3/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]
+[connection signal="item_selected" from="TemplateContainer/VBoxContainer/TemplateSelection" to="." method="_on_TemplateSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/VBoxContainer/CreateTemplate" to="." method="_on_CreateTemplate_button_down"]
+[connection signal="item_selected" from="TemplateContainer/VBoxContainer2/PaletteSelection" to="." method="_on_PaletteSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/VBoxContainer2/LoadPalette" to="." method="_on_LoadPalette_button_down"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="text_entered" from="TemplateNamePanel/VBoxContainer/TemeplateName" to="." method="_on_TemeplateName_text_entered"]

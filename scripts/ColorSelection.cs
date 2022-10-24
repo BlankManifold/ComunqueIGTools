@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-public class BackgroundColorSelection : VBoxContainer
+public class ColorSelection : VBoxContainer
 {
     [Export]
     private string _title;
@@ -37,13 +36,40 @@ public class BackgroundColorSelection : VBoxContainer
             _grid.AddChild(icon);
 
             icon.Color = new Color(color);
-            icon.Connect("button_down", this, nameof(on_ColorIcon_button_down), new Godot.Collections.Array(){icon.Color});
+            icon.Connect("button_down", this, nameof(on_ColorIcon_button_down), new Godot.Collections.Array() { icon.Color });
         }
 
     }
 
 
-    public void _on_BackgroundColorSelection_button_down()
+
+    private void UpdateColors(string path)
+    {
+        _colors.Clear();
+        foreach(ColorIcon icon in _grid.GetChildren())
+        {
+            icon.QueueFree();
+        }
+
+        File f = new File();
+        f.Open(path, File.ModeFlags.Read);
+
+        while (!f.EofReached())
+        {
+            string line = f.GetLine();
+            _colors.Add(line);
+
+            ColorIcon icon = _colorIconScene.Instance<ColorIcon>();
+            _grid.AddChild(icon);
+            icon.Color = new Color(line);
+            icon.Connect("button_down", this, nameof(on_ColorIcon_button_down), new Godot.Collections.Array() { icon.Color });
+        }
+
+    }
+
+
+
+    public void _on_Button_button_down()
     {
         _grid.Visible = !_grid.Visible;
     }
@@ -51,5 +77,8 @@ public class BackgroundColorSelection : VBoxContainer
     {
         EmitSignal(nameof(Selected), color);
     }
-
+    public void _on_ToolsUI_UpdatePalette(string path)
+    {
+        UpdateColors(path);
+    }
 }

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/ZoomButtons.cs" type="Script" id=1]
 
-[node name="ZoomContainer" type="HBoxContainer"]
+[node name="ZoomButtons" type="HBoxContainer"]
 margin_top = 152.0
 margin_right = 306.0
 margin_bottom = 198.0
@@ -12,18 +12,26 @@ alignment = 1
 script = ExtResource( 1 )
 
 [node name="PlusButton" type="Button" parent="."]
-margin_left = 68.0
-margin_right = 143.0
+margin_left = 20.0
+margin_right = 95.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 75, 0 )
 text = "+"
 
 [node name="MinusButton" type="Button" parent="."]
-margin_left = 163.0
-margin_right = 238.0
+margin_left = 115.0
+margin_right = 190.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 75, 0 )
 text = "-"
 
+[node name="MaximeButton" type="Button" parent="."]
+margin_left = 210.0
+margin_right = 285.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 75, 0 )
+text = "<->"
+
 [connection signal="button_down" from="PlusButton" to="." method="_on_PlusButton_button_down"]
 [connection signal="button_down" from="MinusButton" to="." method="_on_MinusButton_button_down"]
+[connection signal="button_down" from="MaximeButton" to="." method="_on_MaximeButton_button_down"]

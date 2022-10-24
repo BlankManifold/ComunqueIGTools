@@ -4,9 +4,9 @@
 
 [node name="ColorIcon" type="Button"]
 self_modulate = Color( 0, 0, 0, 0 )
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 80, 80 )
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
 toggle_mode = true
 flat = true
 script = ExtResource( 1 )
@@ -16,9 +16,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -40.0
-margin_top = -40.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 80, 80 )
+margin_left = -25.0
+margin_top = -25.0
+margin_right = 25.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 50, 50 )
 mouse_filter = 2
