@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/SpacingContainer.cs" type="Script" id=1]
+
+[node name="SpacingContainer" type="VBoxContainer"]
+margin_right = 152.0
+margin_bottom = 65.0
+rect_scale = Vector2( 1, 1.01406 )
+custom_constants/separation = 5
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 152.0
+margin_bottom = 30.0
+
+[node name="Space" type="SpinBox" parent="HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 74.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+size_flags_horizontal = 0
+min_value = -40.0
+max_value = 40.0
+rounded = true
+align = 1
+prefix = "s"
+
+[node name="Char" type="SpinBox" parent="HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 78.0
+margin_right = 152.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+size_flags_horizontal = 0
+min_value = -40.0
+max_value = 40.0
+rounded = true
+align = 1
+prefix = "c"
+
+[node name="HBoxcontainer2" type="HBoxContainer" parent="."]
+margin_top = 35.0
+margin_right = 152.0
+margin_bottom = 65.0
+size_flags_horizontal = 0
+
+[node name="Top" type="SpinBox" parent="HBoxcontainer2"]
+unique_name_in_owner = true
+margin_right = 74.0
+margin_bottom = 30.0
+size_flags_horizontal = 2
+min_value = -40.0
+max_value = 40.0
+rounded = true
+align = 1
+prefix = "t"
+
+[node name="Bottom" type="SpinBox" parent="HBoxcontainer2"]
+unique_name_in_owner = true
+margin_left = 78.0
+margin_right = 152.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 30, 30 )
+size_flags_horizontal = 0
+min_value = -40.0
+max_value = 40.0
+rounded = true
+align = 1
+prefix = "b"
+
+[connection signal="value_changed" from="HBoxContainer/Space" to="." method="_on_Space_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/Char" to="." method="_on_Char_value_changed"]
+[connection signal="value_changed" from="HBoxcontainer2/Top" to="." method="_on_Top_value_changed"]
+[connection signal="value_changed" from="HBoxcontainer2/Bottom" to="." method="_on_Bottom_value_changed"]

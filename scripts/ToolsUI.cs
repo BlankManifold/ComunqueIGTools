@@ -29,8 +29,8 @@ public class ToolsUI : Control
     [Export]
     private Godot.Collections.Dictionary<string, Vector2> _sizeDict = new Godot.Collections.Dictionary<string, Vector2>()
     {
-        {"1:1 (1080x1080)", new Vector2(1,1)},
-        {"9:16 (1080x1920)", new Vector2(9,16)},
+        {"1:1 (1080x1080)", new Vector2(1080,1080)},
+        {"9:16 (1080x1920)", new Vector2(1080,1920)},
     };
 
 
@@ -40,6 +40,7 @@ public class ToolsUI : Control
     private OptionButton _closingSelection;
     private OptionButton _templateSelection;
     private OptionButton _paletteSelection;
+    private SpacingContainer _spacingContainer;
 
 
     private FileDialog _fileDialog;
@@ -53,7 +54,7 @@ public class ToolsUI : Control
 
 
     [Signal]
-    delegate void SizeSelected(Vector2 ratioVec);
+    delegate void SizeSelected(Vector2 size);
     [Signal]
     delegate void BGColorSelected(Color color);
     [Signal]
@@ -62,6 +63,8 @@ public class ToolsUI : Control
     delegate void SymbolColorSelected(Color color);
     [Signal]
     delegate void FontSizeChanged(Color color);
+    [Signal]
+    delegate void SpacingChanged(int value, SpacingContainer.Spacing mode);
     [Signal]
     delegate void ZoomChanged(bool zoomIn, bool maxime = false);
     [Signal]
@@ -79,6 +82,7 @@ public class ToolsUI : Control
         _closingSelection = GetNode<OptionButton>("%ClosingSelection");
         _templateSelection = GetNode<OptionButton>("%TemplateSelection");
         _paletteSelection = GetNode<OptionButton>("%PaletteSelection");
+        _spacingContainer = GetNode<SpacingContainer>("%SpacingContainer");
 
         _templateNamePanel = GetNode<PopupPanel>("%TemplateNamePanel");
         _textEditor = GetNode<TextEditor>("%TextEditor");
@@ -117,6 +121,9 @@ public class ToolsUI : Control
                 break;
             case Globals.Tool.ZOOM:
                 Connect(nameof(ZoomChanged), nodeToConnect, targetMethod);
+                break;
+            case Globals.Tool.SPACING:
+                Connect(nameof(SpacingChanged), nodeToConnect, targetMethod);
                 break;
         }
     }
@@ -191,11 +198,11 @@ public class ToolsUI : Control
             }
         }
     }
-    private float GetSizeRatio()
+    private Vector2 GetFrameSize()
     {
-        Vector2 ratioVec = _sizeDict[_sizeSelection.Text];
-        return ratioVec.x / ratioVec.y;
+        return _sizeDict[_sizeSelection.Text];
     }
+    
     private void UpdateSizeSpinBox()
     {
         GetNode<SpinBox>("%FontSizeSpinBox").Value = _textData.Size;
@@ -280,18 +287,23 @@ public class ToolsUI : Control
 
         Resource templateResource = ResourceLoader.Load(Globals.PATHS.TEMPLATE_DICT[name]);
 
-        float ratio = (float)templateResource.Get("frameRatio");
+        Vector2 size = (Vector2)templateResource.Get("size");
         string incipit = (string)templateResource.Get("incipit");
         string closing = (string)templateResource.Get("closing");
         int fontSize = (int)templateResource.Get("fontSize");
         _bgColor = (Color)templateResource.Get("bgColor");
         Color symbolColor = (Color)templateResource.Get("symbolColor");
         Color fontColor = (Color)templateResource.Get("fontColor");
+        Godot.Collections.Array spacing = (Godot.Collections.Array)templateResource.Get("spacing");
 
-        EmitSignal(nameof(SizeSelected), new Vector2(ratio, 1));
+        EmitSignal(nameof(SizeSelected), size);
         EmitSignal(nameof(BGColorSelected), _bgColor);
         EmitSignal(nameof(FontColorSelected), fontColor);
         EmitSignal(nameof(SymbolColorSelected), symbolColor);
+        EmitSignal(nameof(SpacingChanged), spacing[0], SpacingContainer.Spacing.SPACE);
+        EmitSignal(nameof(SpacingChanged), spacing[1], SpacingContainer.Spacing.CHAR);
+        EmitSignal(nameof(SpacingChanged), spacing[2], SpacingContainer.Spacing.TOP);
+        EmitSignal(nameof(SpacingChanged), spacing[3], SpacingContainer.Spacing.BOTTOM);
 
         _textData.Size = fontSize;
         UpdateSizeSpinBox();
@@ -319,12 +331,20 @@ public class ToolsUI : Control
         GDScript templateResourceScript = (GDScript)GD.Load("res://scripts/TemplateResource.gd");
         Resource templateResource = (Resource)templateResourceScript.New();
 
-        templateResource.Call("init", 0, name + ".tres", GetSizeRatio(), _bgColor, _textData.Incipit, _textData.Closing, null, _textData.Size, _textData.Color, _textData.SymbolColor);
+        templateResource.Call("init", 0, name + ".tres", GetFrameSize(), _bgColor, _textData.Incipit, _textData.Closing, null,
+                             _textData.Size, _textData.Color, _textData.SymbolColor, _spacingContainer.GetSpacing());
 
         string filePath = Globals.PATHS.TEMPLATE + "/" + name + ".tres";
         Godot.Error err = ResourceSaver.Save(filePath, templateResource);
         Globals.PATHS.TEMPLATE_DICT[name] = filePath;
         _templateSelection.AddItem(name);
     }
+    public void _on_SpacingContainer_SpacingChanged(int value, SpacingContainer.Spacing mode)
+    {
+        EmitSignal(nameof(SpacingChanged), value, mode);
+    }
+    public void _on_TemplateSelection_item_focused(int idx)
+    {
 
+    }
 }

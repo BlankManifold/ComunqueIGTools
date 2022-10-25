@@ -18,6 +18,7 @@ public class MainControl : Control
         _toolsUI.ConnectTool(this, Globals.Tool.TEXT, nameof(on_ToolsUI_UpdateText));
         _toolsUI.ConnectTool(this, Globals.Tool.FONTCOLOR, nameof(on_ToolsUI_FontColorSelected));
         _toolsUI.ConnectTool(this, Globals.Tool.SYMCOLOR, nameof(on_ToolsUI_SymbolColorSelected));
+        _toolsUI.ConnectTool(this, Globals.Tool.SPACING, nameof(on_ToolsUI_SpacingChanged));
         _toolsUI.ConnectTool(this, Globals.Tool.ZOOM, nameof(on_ToolsUI_Zoom));
     }
 
@@ -36,6 +37,10 @@ public class MainControl : Control
     public void on_ToolsUI_SymbolColorSelected(Color color)
     {
         _previewUI.UpdateSymbolColor(color);
+    }
+    public void on_ToolsUI_SpacingChanged(int value, SpacingContainer.Spacing mode)
+    {
+        _previewUI.UpdateSpacing(value, mode);
     }
     public void on_ToolsUI_UpdateText(TextData textData)
     {

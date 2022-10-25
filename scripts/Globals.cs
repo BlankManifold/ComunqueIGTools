@@ -2,7 +2,7 @@ namespace Globals
 {
     public enum Tool
     {
-        SIZE, BGCOLOR, FONTCOLOR, SYMCOLOR, INCIPIT, CLOSING, TEXT, ZOOM, TEMPLATE
+        SIZE, BGCOLOR, FONTCOLOR, SYMCOLOR, SPACING, INCIPIT, CLOSING, TEXT, ZOOM, TEMPLATE
     }
     public enum Text
     {
