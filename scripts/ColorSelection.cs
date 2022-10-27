@@ -3,7 +3,7 @@ using Godot;
 public class ColorSelection : VBoxContainer
 {
     [Export]
-    private string _title;
+    private string _title = "";
 
     private GridContainer _grid;
     private Button _button;

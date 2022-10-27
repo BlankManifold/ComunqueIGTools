@@ -17,6 +17,13 @@ public class SpacingContainer : VBoxContainer
     {
         return _spacing;
     }
+    public void UpdateSpacing(Godot.Collections.Array spacing)
+    {
+        GetNode<SpinBox>("%Space").Value = (int)spacing[0];
+        GetNode<SpinBox>("%Char").Value = (int)spacing[1];
+        GetNode<SpinBox>("%Top").Value = (int)spacing[2];
+        GetNode<SpinBox>("%Bottom").Value = (int)spacing[3];
+    }
 
     public void _on_Space_value_changed(float value)
     {

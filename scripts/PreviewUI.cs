@@ -3,6 +3,7 @@ using System;
 
 public class PreviewUI : Control
 {
+    
     private ColorRect _backgroundRect;
     private RichTextLabel _textLabel;
     private TextData _textData = new TextData("", "", "", 30, new Color(0f, 0f, 0f), new Color(0f, 0f, 0f));
@@ -22,6 +23,9 @@ public class PreviewUI : Control
     {
         _backgroundRect = GetNode<ColorRect>("%BackgroundRect");
         _textLabel = GetNode<RichTextLabel>("%Text");
+        
+        DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
+        _textLabel.Set("custom_fonts/bold_font",font.Duplicate());
     }
 
 
@@ -30,11 +34,13 @@ public class PreviewUI : Control
     {
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
         font.Size = _textData.Size;
+        DynamicFont boldFont = (DynamicFont)_textLabel.Get("custom_fonts/bold_font");
+        boldFont.Size = _textData.Size;
     }
     private void UpdateTextContent()
     {
 
-        string mainText = _textData.Incipit + "\n\n" + _textData.Main + char.ConvertFromUtf32(0x00002588);
+        string mainText = _textData.Incipit + "\n\n" + _textData.Main + " " + char.ConvertFromUtf32(0x00002588);
         string closing = "\n" + _textData.Closing;
 
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
@@ -44,6 +50,19 @@ public class PreviewUI : Control
         float fontHeight = font.GetHeight();
         int lineToFill = (int)(heightLeft / fontHeight);
 
+        DynamicFont boldFont = (DynamicFont)_textLabel.Get("custom_fonts/bold_font");
+
+        if (boldFont.FontData != null)
+        {
+            _symBbCode[0] = $"[b][color=#{_textData.SymbolColor.ToHtml(false)}]";
+            _symBbCode[1] = $"[/color][/b]";
+        }
+        else
+        {
+            _symBbCode[0] = $"[color=#{_textData.SymbolColor.ToHtml(false)}]";
+            _symBbCode[1] = $"[/color]";
+        }
+
 
         string BbSymbols = _symBbCode[0];
         _symbols = "";
@@ -52,6 +71,7 @@ public class PreviewUI : Control
         {
             _symbols += "\n~";
         }
+
         BbSymbols += _symbols + _symBbCode[1];
 
         _textLabel.BbcodeText = mainText + BbSymbols + closing;
@@ -91,32 +111,47 @@ public class PreviewUI : Control
     {
         _textData.SymbolColor = color;
 
-        _symBbCode[0] = $"[color=#{color.ToHtml(false)}]";
+        DynamicFont boldFont = (DynamicFont)_textLabel.Get("custom_fonts/bold_font");
+        if (boldFont.FontData != null)
+        {
+            _symBbCode[0] = $"[b][color=#{color.ToHtml(false)}]";
+            _symBbCode[1] = $"[/color][/b]";
+        }
+        else
+        {
+            _symBbCode[0] = $"[color=#{color.ToHtml(false)}]";
+            _symBbCode[1] = $"[/color]";
+        }
 
         string BbSymbols = _symBbCode[0] + _symbols + _symBbCode[1];
 
-        _textLabel.BbcodeText = _textData.Incipit + "\n\n" + _textData.Main + BbSymbols + "\n" + _textData.Closing;
+        _textLabel.BbcodeText = _textData.Incipit + "\n\n" + _textData.Main + " " + char.ConvertFromUtf32(0x00002588) + BbSymbols + "\n" + _textData.Closing;
     }
     public void UpdateSpacing(int value, SpacingContainer.Spacing mode)
     {
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
+        DynamicFont boldFont = (DynamicFont)_textLabel.Get("custom_fonts/bold_font");
 
         switch (mode)
         {
             case SpacingContainer.Spacing.TOP:
                 font.ExtraSpacingTop = value;
+                boldFont.ExtraSpacingTop = value;
                 break;
 
             case SpacingContainer.Spacing.BOTTOM:
                 font.ExtraSpacingBottom = value;
+                boldFont.ExtraSpacingBottom = value;
                 break;
 
             case SpacingContainer.Spacing.CHAR:
                 font.ExtraSpacingChar = value;
+                boldFont.ExtraSpacingChar = value;
                 break;
 
             case SpacingContainer.Spacing.SPACE:
                 font.ExtraSpacingSpace = value;
+                boldFont.ExtraSpacingSpace = value;
                 break;
 
             default:
@@ -157,5 +192,27 @@ public class PreviewUI : Control
                 _backgroundRect.RectScale = finalScale;
         }
     }
+    public void UpdateFont(string path)
+    {
+        DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
+        font.FontData = ResourceLoader.Load<DynamicFontData>(path);
+    }
+    public void UpdateBoldFont(string path)
+    {
+        DynamicFont boldFont = (DynamicFont)_textLabel.Get("custom_fonts/bold_font");
+        boldFont.FontData = ResourceLoader.Load<DynamicFontData>(path);
+        UpdateTextContent();
+    }
 
+    public void SavePNG(string path)
+    {
+        Image img = GetViewport().GetTexture().GetData();
+        img.FlipY();
+        
+        Rect2 frameRect = _backgroundRect.GetRect();
+        Image frame =img.GetRect(frameRect);
+        frame.Resize((int)_startSize[0],(int)_startSize[1]);
+
+        frame.SavePng(path);
+    }
 }

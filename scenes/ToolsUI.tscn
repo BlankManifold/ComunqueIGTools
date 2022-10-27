@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/ColorSelection.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/ToolsUI.cs" type="Script" id=2]
@@ -7,10 +7,28 @@
 [ext_resource path="res://scenes/ZoomButtons.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/SpacingContainer.tscn" type="PackedScene" id=6]
 
+[sub_resource type="InputEventKey" id=8]
+shift = true
+pressed = true
+scancode = 84
+
+[sub_resource type="ShortCut" id=9]
+shortcut = SubResource( 8 )
+
+[sub_resource type="InputEventKey" id=6]
+meta = true
+command = true
+pressed = true
+scancode = 84
+
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
+
 [sub_resource type="InputEventKey" id=4]
 meta = true
 command = true
 pressed = true
+scancode = 83
 
 [sub_resource type="ShortCut" id=5]
 shortcut = SubResource( 4 )
@@ -36,106 +54,97 @@ script = ExtResource( 2 )
 [node name="ToolContainer" type="HBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -504.0
+margin_left = -521.0
 margin_top = 40.0
-margin_right = 504.0
+margin_right = 603.0
 margin_bottom = 453.0
+size_flags_horizontal = 0
 custom_constants/separation = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ToolContainer"]
+[node name="TextBox1" type="VBoxContainer" parent="ToolContainer"]
 margin_right = 400.0
 margin_bottom = 413.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_horizontal = 0
 custom_constants/separation = 30
 
-[node name="FrameSizeSelection" type="OptionButton" parent="ToolContainer/VBoxContainer" groups=["framesize"]]
+[node name="FrameSizeSelection" type="OptionButton" parent="ToolContainer/TextBox1" groups=["framesize"]]
 unique_name_in_owner = true
 margin_right = 400.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 400, 0 )
+rect_min_size = Vector2( 350, 0 )
 text = "1:1 (1080x1080)"
 clip_text = true
 items = [ "1:1 (1080x1080)", null, false, 0, null, "9:16 (1080x1920)", null, false, 1, null ]
 selected = 0
 
-[node name="TextEditor" parent="ToolContainer/VBoxContainer" instance=ExtResource( 4 )]
+[node name="TextEditor" parent="ToolContainer/TextBox1" instance=ExtResource( 4 )]
 unique_name_in_owner = true
 margin_top = 76.0
-margin_right = 400.0
 margin_bottom = 332.0
-rect_min_size = Vector2( 400, 0 )
+rect_min_size = Vector2( 350, 0 )
 
-[node name="ZoomButtons" parent="ToolContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="ZoomButtons" parent="ToolContainer/TextBox1" instance=ExtResource( 5 )]
 margin_top = 362.0
 margin_right = 400.0
 margin_bottom = 408.0
 alignment = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ToolContainer"]
+[node name="TextBox2" type="VBoxContainer" parent="ToolContainer"]
 margin_left = 415.0
 margin_right = 687.0
 margin_bottom = 413.0
 size_flags_horizontal = 0
 custom_constants/separation = 30
 
-[node name="IncipitSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+[node name="IncipitSelection" type="OptionButton" parent="ToolContainer/TextBox2"]
 unique_name_in_owner = true
 margin_right = 272.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 250, 0 )
+rect_min_size = Vector2( 200, 0 )
 clip_text = true
 align = 1
 icon_align = 1
 items = [ "", null, false, 0, null, "comunque...", null, false, 1, null, "e comunque...", null, false, 2, null, "o comunque...", null, false, 3, null ]
 selected = 0
 
-[node name="ClosingSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+[node name="ClosingSelection" type="OptionButton" parent="ToolContainer/TextBox2"]
 unique_name_in_owner = true
 margin_top = 76.0
 margin_right = 272.0
 margin_bottom = 122.0
-rect_min_size = Vector2( 250, 0 )
+rect_min_size = Vector2( 200, 0 )
 clip_text = true
 align = 1
 icon_align = 1
 items = [ "", null, false, 0, null, "-- INSERT --", null, false, 1, null, ":wq", null, false, 2, null ]
 selected = 0
 
-[node name="FontSelection" type="OptionButton" parent="ToolContainer/VBoxContainer2"]
+[node name="FontSizeSpinBox" type="SpinBox" parent="ToolContainer/TextBox2"]
 unique_name_in_owner = true
 margin_top = 152.0
 margin_right = 272.0
-margin_bottom = 198.0
-rect_min_size = Vector2( 250, 0 )
-clip_text = true
-align = 1
-icon_align = 1
-items = [ "", null, false, 0, null, "-- INSERT --", null, false, 1, null, ":wq", null, false, 2, null ]
-selected = 0
-
-[node name="FontSizeSpinBox" type="SpinBox" parent="ToolContainer/VBoxContainer2"]
-unique_name_in_owner = true
-margin_top = 228.0
-margin_right = 272.0
-margin_bottom = 278.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 200, 0 )
 min_value = 20.0
 value = 50.0
 rounded = true
 align = 1
 
-[node name="SpacingContainer" parent="ToolContainer/VBoxContainer2" instance=ExtResource( 6 )]
+[node name="SpacingContainer" parent="ToolContainer/TextBox2" instance=ExtResource( 6 )]
 unique_name_in_owner = true
-margin_top = 308.0
+margin_top = 232.0
 margin_right = 272.0
-margin_bottom = 413.0
+margin_bottom = 337.0
 rect_scale = Vector2( 1, 1 )
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="ToolContainer"]
+[node name="ColorBox" type="VBoxContainer" parent="ToolContainer"]
 margin_left = 702.0
 margin_right = 1008.0
 margin_bottom = 413.0
 custom_constants/separation = 25
 
-[node name="BackgroundColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+[node name="BackgroundColorSelection" parent="ToolContainer/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
@@ -144,7 +153,7 @@ margin_right = 306.0
 margin_bottom = 51.0
 _title = "Background Color"
 
-[node name="FontColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+[node name="FontColorSelection" parent="ToolContainer/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
@@ -153,7 +162,7 @@ margin_right = 306.0
 margin_bottom = 127.0
 _title = "Font Color"
 
-[node name="SymbolColorSelection" parent="ToolContainer/VBoxContainer3" instance=ExtResource( 1 )]
+[node name="SymbolColorSelection" parent="ToolContainer/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
@@ -167,59 +176,132 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -302.0
-margin_top = -152.0
-margin_right = 318.0
-margin_bottom = -40.0
+margin_left = -492.0
+margin_top = -224.0
+margin_right = 493.0
+margin_bottom = -10.0
 custom_constants/separation = 20
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TemplateContainer"]
-margin_right = 300.0
-margin_bottom = 112.0
+[node name="TemplateBox" type="VBoxContainer" parent="TemplateContainer"]
+margin_right = 275.0
+margin_bottom = 214.0
 custom_constants/separation = 20
 
-[node name="TemplateSelection" type="OptionButton" parent="TemplateContainer/VBoxContainer"]
+[node name="TemplateSelection" type="OptionButton" parent="TemplateContainer/TemplateBox"]
 unique_name_in_owner = true
-margin_right = 300.0
+margin_right = 275.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 300, 40 )
-size_flags_horizontal = 3
-shortcut = SubResource( 5 )
+rect_min_size = Vector2( 250, 40 )
+size_flags_vertical = 0
+shortcut = SubResource( 9 )
 clip_text = true
 align = 1
 items = [ "", null, false, 0, null ]
 selected = 0
 
-[node name="CreateTemplate" type="Button" parent="TemplateContainer/VBoxContainer"]
+[node name="CreateTemplate" type="Button" parent="TemplateContainer/TemplateBox"]
 margin_top = 66.0
-margin_right = 300.0
+margin_right = 275.0
 margin_bottom = 112.0
-rect_min_size = Vector2( 300, 40 )
+rect_min_size = Vector2( 250, 40 )
+size_flags_vertical = 0
+shortcut = SubResource( 7 )
 text = "Create template"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="TemplateContainer"]
-margin_left = 320.0
-margin_right = 620.0
-margin_bottom = 112.0
+[node name="PaletteBox" type="VBoxContainer" parent="TemplateContainer"]
+margin_left = 295.0
+margin_right = 545.0
+margin_bottom = 214.0
 custom_constants/separation = 20
 
-[node name="PaletteSelection" type="OptionButton" parent="TemplateContainer/VBoxContainer2"]
+[node name="PaletteSelection" type="OptionButton" parent="TemplateContainer/PaletteBox"]
 unique_name_in_owner = true
-margin_right = 300.0
+margin_right = 250.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 300, 40 )
+rect_min_size = Vector2( 250, 40 )
 size_flags_vertical = 0
 clip_text = true
 align = 1
 items = [ "", null, false, 0, null ]
 selected = 0
 
-[node name="LoadPalette" type="Button" parent="TemplateContainer/VBoxContainer2"]
+[node name="LoadPalette" type="Button" parent="TemplateContainer/PaletteBox"]
 margin_top = 66.0
-margin_right = 300.0
+margin_right = 250.0
 margin_bottom = 112.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_vertical = 0
 text = "Add Palette"
+
+[node name="FontBox" type="VBoxContainer" parent="TemplateContainer"]
+margin_left = 565.0
+margin_right = 815.0
+margin_bottom = 214.0
+custom_constants/separation = 10
+
+[node name="FontSelection" type="OptionButton" parent="TemplateContainer/FontBox"]
+unique_name_in_owner = true
+margin_right = 250.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 250, 40 )
+size_flags_vertical = 0
+clip_text = true
+align = 1
+items = [ "", null, false, 0, null ]
+selected = 0
+
+[node name="LoadFont" type="Button" parent="TemplateContainer/FontBox"]
+margin_top = 56.0
+margin_right = 250.0
+margin_bottom = 102.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_vertical = 0
+text = "Add Font"
+
+[node name="LoadBoldFont" type="Button" parent="TemplateContainer/FontBox"]
+margin_top = 112.0
+margin_right = 250.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_vertical = 0
+text = "Add BoldFont"
+
+[node name="BoldFontSelection" type="OptionButton" parent="TemplateContainer/FontBox"]
+unique_name_in_owner = true
+margin_top = 168.0
+margin_right = 250.0
+margin_bottom = 214.0
+rect_min_size = Vector2( 250, 40 )
+size_flags_vertical = 0
+clip_text = true
+align = 1
+items = [ "", null, false, 0, null ]
+selected = 0
+
+[node name="SaveBox" type="VBoxContainer" parent="TemplateContainer"]
+margin_left = 835.0
+margin_right = 985.0
+margin_bottom = 214.0
+custom_constants/separation = 20
+
+[node name="WindowLabel" type="Label" parent="TemplateContainer/SaveBox"]
+unique_name_in_owner = true
+margin_right = 150.0
+margin_bottom = 40.0
+size_flags_vertical = 0
+text = "0/0"
+align = 1
+valign = 1
+
+[node name="Save" type="Button" parent="TemplateContainer/SaveBox"]
+margin_top = 60.0
+margin_right = 150.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 150, 50 )
+size_flags_vertical = 0
+shortcut = SubResource( 5 )
+text = "SAVE"
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
@@ -241,6 +323,7 @@ show_hidden_files = true
 
 [node name="TemplateNamePanel" type="PopupPanel" parent="."]
 unique_name_in_owner = true
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -271,27 +354,35 @@ margin_top = 118.0
 margin_right = 756.0
 margin_bottom = 168.0
 size_flags_vertical = 8
-text = "dshdsaouhsaouhsou"
+max_length = 25
+placeholder_text = "templateNameWithoutDotTres"
+placeholder_alpha = 0.5
 
-[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/BackgroundColorSelection" method="_on_ToolsUI_UpdatePalette"]
-[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/FontColorSelection" method="_on_ToolsUI_UpdatePalette"]
-[connection signal="UpdatePalette" from="." to="ToolContainer/VBoxContainer3/SymbolColorSelection" method="_on_ToolsUI_UpdatePalette"]
-[connection signal="item_selected" from="ToolContainer/VBoxContainer/FrameSizeSelection" to="." method="_on_FrameSizeSelection_item_selected"]
-[connection signal="LoadPressed" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_LoadPressed"]
-[connection signal="UpdateText" from="ToolContainer/VBoxContainer/TextEditor" to="." method="_on_TextEditor_UpdateText"]
-[connection signal="Changed" from="ToolContainer/VBoxContainer/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]
-[connection signal="item_selected" from="ToolContainer/VBoxContainer2/IncipitSelection" to="." method="_on_IncipitSelection_item_selected"]
-[connection signal="item_selected" from="ToolContainer/VBoxContainer2/ClosingSelection" to="." method="_on_ClosingSelection_item_selected"]
-[connection signal="item_selected" from="ToolContainer/VBoxContainer2/FontSelection" to="." method="_on_ClosingSelection_item_selected"]
-[connection signal="value_changed" from="ToolContainer/VBoxContainer2/FontSizeSpinBox" to="." method="_on_FontSize_value_changed"]
-[connection signal="SpacingChanged" from="ToolContainer/VBoxContainer2/SpacingContainer" to="." method="_on_SpacingContainer_SpacingChanged"]
-[connection signal="Selected" from="ToolContainer/VBoxContainer3/BackgroundColorSelection" to="." method="_on_BackgroundColorSelection_Selected"]
-[connection signal="Selected" from="ToolContainer/VBoxContainer3/FontColorSelection" to="." method="_on_FontColorSelection_Selected"]
-[connection signal="Selected" from="ToolContainer/VBoxContainer3/SymbolColorSelection" to="." method="_on_SymbolColorSelection_Selected"]
-[connection signal="item_focused" from="TemplateContainer/VBoxContainer/TemplateSelection" to="." method="_on_TemplateSelection_item_focused"]
-[connection signal="item_selected" from="TemplateContainer/VBoxContainer/TemplateSelection" to="." method="_on_TemplateSelection_item_selected"]
-[connection signal="button_down" from="TemplateContainer/VBoxContainer/CreateTemplate" to="." method="_on_CreateTemplate_button_down"]
-[connection signal="item_selected" from="TemplateContainer/VBoxContainer2/PaletteSelection" to="." method="_on_PaletteSelection_item_selected"]
-[connection signal="button_down" from="TemplateContainer/VBoxContainer2/LoadPalette" to="." method="_on_LoadPalette_button_down"]
+[connection signal="UpdatePalette" from="." to="ToolContainer/ColorBox/BackgroundColorSelection" method="_on_ToolsUI_UpdatePalette"]
+[connection signal="UpdatePalette" from="." to="ToolContainer/ColorBox/FontColorSelection" method="_on_ToolsUI_UpdatePalette"]
+[connection signal="UpdatePalette" from="." to="ToolContainer/ColorBox/SymbolColorSelection" method="_on_ToolsUI_UpdatePalette"]
+[connection signal="item_selected" from="ToolContainer/TextBox1/FrameSizeSelection" to="." method="_on_FrameSizeSelection_item_selected"]
+[connection signal="LoadPressed" from="ToolContainer/TextBox1/TextEditor" to="." method="_on_TextEditor_LoadPressed"]
+[connection signal="UpdateText" from="ToolContainer/TextBox1/TextEditor" to="." method="_on_TextEditor_UpdateText"]
+[connection signal="Changed" from="ToolContainer/TextBox1/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]
+[connection signal="item_selected" from="ToolContainer/TextBox2/IncipitSelection" to="." method="_on_IncipitSelection_item_selected"]
+[connection signal="item_selected" from="ToolContainer/TextBox2/ClosingSelection" to="." method="_on_ClosingSelection_item_selected"]
+[connection signal="value_changed" from="ToolContainer/TextBox2/FontSizeSpinBox" to="." method="_on_FontSize_value_changed"]
+[connection signal="SpacingChanged" from="ToolContainer/TextBox2/SpacingContainer" to="." method="_on_SpacingContainer_SpacingChanged"]
+[connection signal="Selected" from="ToolContainer/ColorBox/BackgroundColorSelection" to="." method="_on_BackgroundColorSelection_Selected"]
+[connection signal="Selected" from="ToolContainer/ColorBox/FontColorSelection" to="." method="_on_FontColorSelection_Selected"]
+[connection signal="Selected" from="ToolContainer/ColorBox/SymbolColorSelection" to="." method="_on_SymbolColorSelection_Selected"]
+[connection signal="item_focused" from="TemplateContainer/TemplateBox/TemplateSelection" to="." method="_on_TemplateSelection_item_focused"]
+[connection signal="item_selected" from="TemplateContainer/TemplateBox/TemplateSelection" to="." method="_on_TemplateSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/TemplateBox/CreateTemplate" to="." method="_on_CreateTemplate_button_down"]
+[connection signal="item_selected" from="TemplateContainer/PaletteBox/PaletteSelection" to="." method="_on_PaletteSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/PaletteBox/LoadPalette" to="." method="_on_LoadPalette_button_down"]
+[connection signal="item_selected" from="TemplateContainer/FontBox/FontSelection" to="." method="_on_FontSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/FontBox/LoadFont" to="." method="_on_LoadFont_button_down"]
+[connection signal="button_down" from="TemplateContainer/FontBox/LoadBoldFont" to="." method="_on_LoadBoldFont_button_down"]
+[connection signal="item_selected" from="TemplateContainer/FontBox/BoldFontSelection" to="." method="_on_BoldFontSelection_item_selected"]
+[connection signal="button_down" from="TemplateContainer/SaveBox/Save" to="." method="_on_Save_button_down"]
+[connection signal="confirmed" from="FileDialog" to="." method="_on_FileDialog_confirmed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="files_selected" from="FileDialog" to="." method="_on_FileDialog_files_selected"]
 [connection signal="text_entered" from="TemplateNamePanel/VBoxContainer/TemeplateName" to="." method="_on_TemeplateName_text_entered"]

@@ -7,7 +7,7 @@ public class TextEditor : VBoxContainer
     [Signal]
     delegate void UpdateText(string text);
     [Signal]
-    delegate void LoadPressed();
+    delegate void LoadPressed(bool multiple = false);
     
 
     public override void _Ready()
@@ -31,6 +31,10 @@ public class TextEditor : VBoxContainer
     public void _on_LoadFile_button_down()
     {
         EmitSignal(nameof(LoadPressed));
+    }
+    public void _on_LoadFiles_button_down()
+    {
+        EmitSignal(nameof(LoadPressed), true);
     }
    
 

@@ -16,6 +16,7 @@ export var symbolColor: Color
 export var spacing: Array
 
 
+
 func init(_id: int, _name: String, _size: Vector2, _bgColor: Color, _incipit: String, 
     _closing: String, _font: Font, _fontSize: int,  _fontColor: Color, _symbolColor: Color, _spacing: Array) -> void:
     id = _id
