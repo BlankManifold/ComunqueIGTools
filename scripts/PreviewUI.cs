@@ -92,10 +92,10 @@ public class PreviewUI : Control
         _backgroundRect.RectSize = size;
         _startSize = size;
 
-        Vector2 factorVec = _maxSize / _startSize;
-        _maxScale = Math.Min(factorVec.x, factorVec.y) * Vector2.One;
+        // Vector2 factorVec = _maxSize / _startSize;
+        // _maxScale = Math.Min(factorVec.x, factorVec.y) * Vector2.One;
 
-        _backgroundRect.RectScale = _maxScale;  
+        // _backgroundRect.RectScale = _maxScale;  
         // _backgroundRect.RectScale = _baseScale * ratioVec / Math.Max(ratioVec.x, ratioVec.y);
     }
     public void UpdateColor(Color color)
@@ -164,34 +164,6 @@ public class PreviewUI : Control
         UpdateTextSize();
         UpdateTextContent();
     }
-    public void UpdateZoom(bool zoomIn, bool maxime)
-    {
-        if (maxime)
-        {
-            _backgroundRect.RectScale = _maxScale;
-            return;
-        }
-
-        Vector2 finalScale;
-        Vector2 finalSize;
-
-        if (zoomIn)
-        {
-            finalScale = _backgroundRect.RectScale * 1.20f;
-            finalSize = finalScale * _backgroundRect.RectSize;
-
-            if (finalSize.x < _maxSize.x && finalSize.y < _maxSize.y)
-                _backgroundRect.RectScale = finalScale;
-        }
-        else
-        {
-            finalScale = _backgroundRect.RectScale / 1.20f;
-            finalSize = finalScale * _backgroundRect.RectSize;
-
-            if (finalSize.y > _minSize.x && finalSize.y > _minSize.y)
-                _backgroundRect.RectScale = finalScale;
-        }
-    }
     public void UpdateFont(string path)
     {
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
@@ -209,9 +181,8 @@ public class PreviewUI : Control
         Image img = GetViewport().GetTexture().GetData();
         img.FlipY();
         
-        Rect2 frameRect = _backgroundRect.GetRect();
-        Image frame =img.GetRect(frameRect);
-        frame.Resize((int)_startSize[0],(int)_startSize[1]);
+        Image frame =img.GetRect(_backgroundRect.GetRect());
+        //frame.Resize((int)_startSize[0],(int)_startSize[1]);
 
         frame.SavePng(path);
     }

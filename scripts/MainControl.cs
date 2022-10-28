@@ -1,17 +1,20 @@
 using Godot;
-using System;
 
 public class MainControl : Control
 {
 
     private ToolsUI _toolsUI;
     private PreviewUI _previewUI;
+    private Camera2D _camera;
+    private Vector2 _maxZoom = new Vector2(0.5f, 2f);
 
     public override void _Ready()
     {
         _toolsUI = GetNode<ToolsUI>("%ToolsUI");
         _previewUI = GetNode<PreviewUI>("%PreviewUI");
         _previewUI.UpdateMaxSize(GetNode<ViewportContainer>("%PreviewViewportContainer").RectSize);
+        _camera = GetNode<Camera2D>("%Camera2D");
+
 
         _toolsUI.ConnectTool(this, Globals.Tool.SIZE, nameof(on_ToolsUI_SizeChanged));
         _toolsUI.ConnectTool(this, Globals.Tool.BGCOLOR, nameof(on_ToolsUI_BGColorSelected));
@@ -59,7 +62,14 @@ public class MainControl : Control
     }
     public void on_ToolsUI_Zoom(bool zoomIn, bool maxime)
     {
-        _previewUI.UpdateZoom(zoomIn, maxime);
+        Vector2 zoom = _camera.Zoom;
+        if (zoomIn)
+            zoom /= 1.1f; 
+        else
+            zoom *= 1.1f; 
+        
+        if (zoom[0] >= _maxZoom[0] && zoom[1] <= _maxZoom[1])
+            _camera.Zoom = zoom;
     }
     public void on_ToolsUI_Save(string path)
     {
