@@ -75,7 +75,7 @@ margin_bottom = 46.0
 rect_min_size = Vector2( 350, 0 )
 text = "1:1 (1080x1080)"
 clip_text = true
-items = [ "1:1 (1080x1080)", null, false, 0, null, "9:16 (1080x1920)", null, false, 1, null ]
+items = [ "1:1 (1080x1080)", null, false, 0, null, "9:16 (1080x1920)", null, false, 1, null, "1:1 (2160x2160)", null, false, 2, null ]
 selected = 0
 
 [node name="TextEditor" parent="ToolContainer/TextBox1" instance=ExtResource( 4 )]
@@ -127,6 +127,7 @@ margin_right = 272.0
 margin_bottom = 202.0
 rect_min_size = Vector2( 200, 0 )
 min_value = 20.0
+max_value = 300.0
 value = 50.0
 rounded = true
 align = 1
@@ -281,13 +282,13 @@ selected = 0
 
 [node name="SaveBox" type="VBoxContainer" parent="TemplateContainer"]
 margin_left = 835.0
-margin_right = 985.0
+margin_right = 1004.0
 margin_bottom = 214.0
 custom_constants/separation = 20
 
 [node name="WindowLabel" type="Label" parent="TemplateContainer/SaveBox"]
 unique_name_in_owner = true
-margin_right = 150.0
+margin_right = 169.0
 margin_bottom = 40.0
 size_flags_vertical = 0
 text = "0/0"
@@ -296,12 +297,18 @@ valign = 1
 
 [node name="Save" type="Button" parent="TemplateContainer/SaveBox"]
 margin_top = 60.0
-margin_right = 150.0
+margin_right = 169.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 150, 50 )
 size_flags_vertical = 0
 shortcut = SubResource( 5 )
 text = "SAVE"
+
+[node name="Shrink2Box" type="CheckBox" parent="TemplateContainer/SaveBox"]
+margin_top = 130.0
+margin_right = 169.0
+margin_bottom = 178.0
+text = "SHRINK2"
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
@@ -382,6 +389,7 @@ placeholder_alpha = 0.5
 [connection signal="button_down" from="TemplateContainer/FontBox/LoadBoldFont" to="." method="_on_LoadBoldFont_button_down"]
 [connection signal="item_selected" from="TemplateContainer/FontBox/BoldFontSelection" to="." method="_on_BoldFontSelection_item_selected"]
 [connection signal="button_down" from="TemplateContainer/SaveBox/Save" to="." method="_on_Save_button_down"]
+[connection signal="toggled" from="TemplateContainer/SaveBox/Shrink2Box" to="." method="_on_Shrink2Box_toggled"]
 [connection signal="confirmed" from="FileDialog" to="." method="_on_FileDialog_confirmed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
 [connection signal="files_selected" from="FileDialog" to="." method="_on_FileDialog_files_selected"]

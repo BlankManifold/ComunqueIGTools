@@ -30,6 +30,7 @@ public class ToolsUI : Control
     private Godot.Collections.Dictionary<string, Vector2> _sizeDict = new Godot.Collections.Dictionary<string, Vector2>()
     {
         {"1:1 (1080x1080)", new Vector2(1080,1080)},
+        {"1:1 (2160x2160)", new Vector2(2160,2160)},
         {"9:16 (1080x1920)", new Vector2(1080,1920)},
     };
 
@@ -56,6 +57,7 @@ public class ToolsUI : Control
     private Color _bgColor = new Color(1f, 1f, 1f);
     private Godot.Collections.Array<string> _mainTexts = new Godot.Collections.Array<string>() { };
     private int _index = 0;
+    private bool _shrink2 = false;
 
 
 
@@ -82,7 +84,7 @@ public class ToolsUI : Control
     [Signal]
     delegate void BoldFontSelected(string path);
     [Signal]
-    delegate void Save(string path);
+    delegate void Save(string path, bool shrink2);
 
 
 
@@ -312,7 +314,6 @@ public class ToolsUI : Control
     }
     private void UpdateFromResource(Resource templateResource)
     {
-        Vector2 size = (Vector2)templateResource.Get("size");
         string incipit = (string)templateResource.Get("incipit");
         string closing = (string)templateResource.Get("closing");
         int fontSize = (int)templateResource.Get("fontSize");
@@ -321,7 +322,6 @@ public class ToolsUI : Control
         Color fontColor = (Color)templateResource.Get("fontColor");
         Godot.Collections.Array spacing = (Godot.Collections.Array)templateResource.Get("spacing");
 
-        EmitSignal(nameof(SizeSelected), size);
         EmitSignal(nameof(BGColorSelected), _bgColor);
         EmitSignal(nameof(FontColorSelected), fontColor);
         EmitSignal(nameof(SymbolColorSelected), symbolColor);
@@ -485,7 +485,7 @@ public class ToolsUI : Control
     {
         if (_fileDialogMode == FileDialogMode.SAVE_PNG)
         {
-            EmitSignal(nameof(Save), _fileDialog.CurrentPath);
+            EmitSignal(nameof(Save), _fileDialog.CurrentPath, _shrink2);
         }
     }
 
@@ -528,13 +528,20 @@ public class ToolsUI : Control
         GDScript templateResourceScript = (GDScript)GD.Load("res://scripts/TemplateResource.gd");
         Resource templateResource = (Resource)templateResourceScript.New();
 
-        templateResource.Call("init", 0, name + ".tres", GetFrameSize(), _bgColor, _textData.Incipit, _textData.Closing, null,
+        string fileName = name + ".tres";
+
+        templateResource.Call("init", 0, fileName, _bgColor, _textData.Incipit, _textData.Closing, null,
                              _textData.Size, _textData.Color, _textData.SymbolColor, _spacingContainer.GetSpacing());
 
-        string filePath = Globals.PATHS.TEMPLATE + "/" + name + ".tres";
+        string filePath = Globals.PATHS.TEMPLATE + "/" + fileName;
         Godot.Error err = ResourceSaver.Save(filePath, templateResource);
-        Globals.PATHS.TEMPLATE_DICT[name + ".tres"] = filePath;
-        _templateSelection.AddItem(name + ".tres");
+        
+        if (!Globals.PATHS.TEMPLATE_DICT.ContainsKey(fileName))
+        {
+            _templateSelection.AddItem(fileName);
+        }
+
+        Globals.PATHS.TEMPLATE_DICT[fileName] = filePath;
     }
     public void _on_TemplateSelection_item_focused(int idx)
     {
@@ -549,4 +556,9 @@ public class ToolsUI : Control
         UpdateFileDialogFilters(FileDialogMode.SAVE_PNG);
         _fileDialog.Popup_();
     }
+    public void _on_Shrink2Box_toggled(bool buttonPressed)
+    {
+        _shrink2 = buttonPressed;
+    }
 }
+

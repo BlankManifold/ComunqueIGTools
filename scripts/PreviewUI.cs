@@ -3,29 +3,26 @@ using System;
 
 public class PreviewUI : Control
 {
-    
+
+
     private ColorRect _backgroundRect;
     private RichTextLabel _textLabel;
     private TextData _textData = new TextData("", "", "", 30, new Color(0f, 0f, 0f), new Color(0f, 0f, 0f));
     private Vector2 _maxSize;
     private Vector2 _maxScale;
     private Vector2 _minSize = new Vector2(400, 400);
-    private Vector2 _startSize = new Vector2(1080, 1080);
+    private Vector2 _startSize = new Vector2(2160, 2160);//new Vector2(1080, 1080); //
     private string _symbols = "";
     private string[] _symBbCode = new string[] { "[color=#000000]", "[/color]" };
-
-    [Export]
-    private Vector2 _baseScale = new Vector2(1, 1);
-
 
 
     public override void _Ready()
     {
         _backgroundRect = GetNode<ColorRect>("%BackgroundRect");
         _textLabel = GetNode<RichTextLabel>("%Text");
-        
+
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
-        _textLabel.Set("custom_fonts/bold_font",font.Duplicate());
+        _textLabel.Set("custom_fonts/bold_font", font.Duplicate());
     }
 
 
@@ -78,7 +75,22 @@ public class PreviewUI : Control
     }
 
 
-
+    private void UpdateLabelMargin(Vector2 size)
+    {
+        switch (size.x)
+        {
+            case 1080:
+                _textLabel.MarginBottom = 30;
+                _textLabel.MarginLeft = 30;
+                _textLabel.MarginTop = 30;
+                break;
+            case 2160:
+                _textLabel.MarginBottom = 60;
+                _textLabel.MarginLeft = 60;
+                _textLabel.MarginTop = 60;
+                break;
+        }
+    }
     public void UpdateMaxSize(Vector2 maxsize)
     {
         _maxSize = maxsize;
@@ -91,6 +103,10 @@ public class PreviewUI : Control
     {
         _backgroundRect.RectSize = size;
         _startSize = size;
+
+        _backgroundRect.RectPosition = GetRect().GetCenter() - _backgroundRect.RectSize / 2;
+
+        UpdateLabelMargin(size);
 
         // Vector2 factorVec = _maxSize / _startSize;
         // _maxScale = Math.Min(factorVec.x, factorVec.y) * Vector2.One;
@@ -176,14 +192,17 @@ public class PreviewUI : Control
         UpdateTextContent();
     }
 
-    public void SavePNG(string path)
+    public void SavePNG(string path, bool shrink2)
     {
         Image img = GetViewport().GetTexture().GetData();
         img.FlipY();
-        
-        Image frame =img.GetRect(_backgroundRect.GetRect());
-        //frame.Resize((int)_startSize[0],(int)_startSize[1]);
 
+        Image frame = img.GetRect(_backgroundRect.GetRect());
+        //frame.Resize((int)_startSize[0],(int)_startSize[1]);
+        if (shrink2)
+        {
+            frame.ShrinkX2();
+        }
         frame.SavePng(path);
     }
 }

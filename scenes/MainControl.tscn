@@ -26,18 +26,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -540.0
-margin_top = -404.0
-margin_right = 540.0
-margin_bottom = 676.0
+margin_left = -1080.0
+margin_top = -968.0
+margin_right = 1080.0
+margin_bottom = 1192.0
 rect_min_size = Vector2( 400, 400 )
 
 [node name="PreviewViewport" type="Viewport" parent="PreviewViewportContainer"]
 unique_name_in_owner = true
-size = Vector2( 1080, 1080 )
+size = Vector2( 2160, 2160 )
 transparent_bg = true
 handle_input_locally = false
-msaa = 1
+msaa = 2
 disable_3d = true
 keep_3d_linear = true
 usage = 0
@@ -52,8 +52,8 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 1080.0
-margin_bottom = 1080.0
+margin_right = 2160.0
+margin_bottom = 2160.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true

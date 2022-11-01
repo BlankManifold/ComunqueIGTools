@@ -71,9 +71,9 @@ public class MainControl : Control
         if (zoom[0] >= _maxZoom[0] && zoom[1] <= _maxZoom[1])
             _camera.Zoom = zoom;
     }
-    public void on_ToolsUI_Save(string path)
+    public void on_ToolsUI_Save(string path, bool shrink2)
     {
-        _previewUI.SavePNG(path);
+        _previewUI.SavePNG(path, shrink2);
     }
 
 
