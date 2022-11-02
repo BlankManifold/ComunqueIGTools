@@ -6,7 +6,7 @@ public class MainControl : Control
     private ToolsUI _toolsUI;
     private PreviewUI _previewUI;
     private Camera2D _camera;
-    private Vector2 _maxZoom = new Vector2(0.5f, 2f);
+    private Vector2 _maxZoom = new Vector2(0.05f, 10f);
 
     public override void _Ready()
     {
@@ -26,6 +26,7 @@ public class MainControl : Control
         _toolsUI.ConnectTool(this, Globals.Tool.SPACING, nameof(on_ToolsUI_SpacingChanged));
         _toolsUI.ConnectTool(this, Globals.Tool.ZOOM, nameof(on_ToolsUI_Zoom));
         _toolsUI.ConnectTool(this, Globals.Tool.SAVE, nameof(on_ToolsUI_Save));
+        _toolsUI.ConnectTool(this, Globals.Tool.BLINKING, nameof(on_ToolsUI_BlinkingPressed));
     }
 
     public void on_ToolsUI_SizeChanged(Vector2 ratioVec)
@@ -74,6 +75,10 @@ public class MainControl : Control
     public void on_ToolsUI_Save(string path, bool shrink2)
     {
         _previewUI.SavePNG(path, shrink2);
+    }
+    public void on_ToolsUI_BlinkingPressed(bool blinkingOn)
+    {
+        _previewUI.BlinkAnimation(blinkingOn);
     }
 
 

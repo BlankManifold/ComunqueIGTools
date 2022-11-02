@@ -7,7 +7,8 @@ namespace Globals
         FONT, FONTCOLOR, SYMCOLOR, SPACING, BOLDFONT,
         INCIPIT, CLOSING, TEXT,
         TEMPLATE, 
-        SAVE
+        SAVE,
+        BLINKING
     }
     public enum Text
     {

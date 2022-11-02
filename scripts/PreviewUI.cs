@@ -5,13 +5,14 @@ public class PreviewUI : Control
 {
 
 
+    private AnimationPlayer _animationPlayer;
     private ColorRect _backgroundRect;
     private RichTextLabel _textLabel;
     private TextData _textData = new TextData("", "", "", 30, new Color(0f, 0f, 0f), new Color(0f, 0f, 0f));
     private Vector2 _maxSize;
     private Vector2 _maxScale;
     private Vector2 _minSize = new Vector2(400, 400);
-    private Vector2 _startSize = new Vector2(2160, 2160);//new Vector2(1080, 1080); //
+    private Vector2 _startSize = new Vector2(1080, 1080);//new Vector2(1080, 1080); //
     private string _symbols = "";
     private string[] _symBbCode = new string[] { "[color=#000000]", "[/color]" };
 
@@ -19,6 +20,7 @@ public class PreviewUI : Control
     public override void _Ready()
     {
         _backgroundRect = GetNode<ColorRect>("%BackgroundRect");
+        _animationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         _textLabel = GetNode<RichTextLabel>("%Text");
 
         DynamicFont font = (DynamicFont)_textLabel.Get("custom_fonts/normal_font");
@@ -36,7 +38,6 @@ public class PreviewUI : Control
     }
     private void UpdateTextContent()
     {
-
         string mainText = _textData.Incipit + "\n\n" + _textData.Main + " " + char.ConvertFromUtf32(0x00002588);
         string closing = "\n" + _textData.Closing;
 
@@ -75,6 +76,28 @@ public class PreviewUI : Control
     }
 
 
+    public void UpdateOnlyMain(string main, bool blockOn)
+    {
+        _textData.Main = main;
+
+        string mainText = _textData.Incipit + "\n\n" + main;
+        string closing = "\n" + _textData.Closing;
+
+        if (blockOn)
+            mainText += " " + char.ConvertFromUtf32(0x00002588);
+
+        _textLabel.BbcodeText = mainText + _symBbCode[0] + _symbols + _symBbCode[1] + closing;
+    }
+    public void UpdateOnlyBlock(bool blockOn)
+    {
+        string mainText = _textData.Incipit + "\n\n" + _textData.Main;
+        string closing = "\n" + _textData.Closing;
+
+        if (blockOn)
+            mainText += " " + char.ConvertFromUtf32(0x00002588);
+
+        _textLabel.BbcodeText = mainText + _symBbCode[0] + _symbols + _symBbCode[1] + closing;
+    }
     private void UpdateLabelMargin(Vector2 size)
     {
         switch (size.x)
@@ -101,11 +124,12 @@ public class PreviewUI : Control
     }
     public void UpdateSize(Vector2 size)
     {
+        Vector2 center = _backgroundRect.GetRect().GetCenter();
+        _backgroundRect.RectPivotOffset = size / 2;
         _backgroundRect.RectSize = size;
         _startSize = size;
 
-        _backgroundRect.RectPosition = GetRect().GetCenter() - _backgroundRect.RectSize / 2;
-
+        _backgroundRect.RectPosition = center - _backgroundRect.RectSize / 2;
         UpdateLabelMargin(size);
 
         // Vector2 factorVec = _maxSize / _startSize;
@@ -191,7 +215,6 @@ public class PreviewUI : Control
         boldFont.FontData = ResourceLoader.Load<DynamicFontData>(path);
         UpdateTextContent();
     }
-
     public void SavePNG(string path, bool shrink2)
     {
         Image img = GetViewport().GetTexture().GetData();
@@ -204,5 +227,14 @@ public class PreviewUI : Control
             frame.ShrinkX2();
         }
         frame.SavePng(path);
+    }
+    public void BlinkAnimation(bool blinkingOn)
+    {
+        if (blinkingOn)
+            _animationPlayer.Play("BlinkingBlock");
+        else
+            _animationPlayer.Stop();
+        UpdateOnlyBlock(true);
+
     }
 }

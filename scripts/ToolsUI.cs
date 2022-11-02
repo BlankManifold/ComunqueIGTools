@@ -85,6 +85,8 @@ public class ToolsUI : Control
     delegate void BoldFontSelected(string path);
     [Signal]
     delegate void Save(string path, bool shrink2);
+    [Signal]
+    delegate void BlinkingPressed(bool blinkingOn);
 
 
 
@@ -139,7 +141,7 @@ public class ToolsUI : Control
     }
 
 
-    public void ConnectTool(Node nodeToConnect, Globals.Tool tool, string targetMethod)
+    public void ConnectTool(Node nodeToConnect, Globals.Tool tool, string targetMethod) 
     {
         switch (tool)
         {
@@ -175,6 +177,9 @@ public class ToolsUI : Control
                 break;
             case Globals.Tool.SAVE:
                 Connect(nameof(Save), nodeToConnect, targetMethod);
+                break;
+            case Globals.Tool.BLINKING:
+                Connect(nameof(BlinkingPressed), nodeToConnect, targetMethod);
                 break;
         }
     }
@@ -556,9 +561,13 @@ public class ToolsUI : Control
         UpdateFileDialogFilters(FileDialogMode.SAVE_PNG);
         _fileDialog.Popup_();
     }
-    public void _on_Shrink2Box_toggled(bool buttonPressed)
+    public void _on_Shrink2Box_toggled(bool shrink2On)
     {
-        _shrink2 = buttonPressed;
+        _shrink2 = shrink2On;
+    }
+    public void _on_BlinkingButton_toggled(bool blinkingOn)
+    {
+        EmitSignal(nameof(BlinkingPressed), blinkingOn);
     }
 }
 
