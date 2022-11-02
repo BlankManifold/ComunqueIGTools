@@ -47,10 +47,6 @@ shortcut = SubResource( 4 )
 [node name="ToolsUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 15.0
-margin_top = 15.0
-margin_right = -15.0
-margin_bottom = -15.0
 mouse_filter = 1
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
@@ -61,10 +57,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -654.0
-margin_top = -473.0
-margin_right = 654.0
-margin_bottom = 473.0
+margin_left = -477.0
+margin_top = -343.5
+margin_right = 477.0
+margin_bottom = 343.5
 rect_min_size = Vector2( 400, 140 )
 theme = SubResource( 3 )
 window_title = "Open a File"
@@ -94,14 +90,14 @@ margin_bottom = -4.0
 
 [node name="Label" type="Label" parent="TemplateNamePanel/VBoxContainer"]
 margin_right = 756.0
-margin_bottom = 114.0
+margin_bottom = 130.0
 size_flags_vertical = 3
 text = "Enter template name (ENTER to confirm)"
 align = 1
 valign = 1
 
 [node name="TemeplateName" type="LineEdit" parent="TemplateNamePanel/VBoxContainer"]
-margin_top = 118.0
+margin_top = 134.0
 margin_right = 756.0
 margin_bottom = 168.0
 size_flags_vertical = 8
@@ -111,25 +107,25 @@ placeholder_alpha = 0.5
 
 [node name="LeftPanel" type="Panel" parent="."]
 anchor_bottom = 1.0
-margin_left = -16.0
-margin_top = -16.0
-margin_right = 420.0
-margin_bottom = 15.0
+margin_right = 300.0
+rect_min_size = Vector2( 320, 500 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="BottomLeftBox" type="VBoxContainer" parent="LeftPanel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -200.0
-margin_top = -48.0
-margin_right = 200.0
-margin_bottom = -8.0
+margin_left = -17.5
+margin_top = -40.0
+margin_right = 17.5
+margin_bottom = -16.0
 
 [node name="WindowLabel" type="Label" parent="LeftPanel/BottomLeftBox"]
 unique_name_in_owner = true
-margin_right = 400.0
-margin_bottom = 40.0
+margin_right = 35.0
+margin_bottom = 24.0
 size_flags_vertical = 0
 text = "0/0"
 align = 1
@@ -138,24 +134,27 @@ valign = 1
 [node name="TopLeftBox" type="VBoxContainer" parent="LeftPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -200.0
-margin_top = 16.0
-margin_right = 200.0
-margin_bottom = 965.0
-custom_constants/separation = 20
+margin_left = -150.0
+margin_top = 24.0
+margin_right = 150.0
+margin_bottom = 747.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 10
 
 [node name="TemplateBox" type="VBoxContainer" parent="LeftPanel/TopLeftBox"]
-margin_right = 325.0
-margin_bottom = 102.0
-rect_min_size = Vector2( 325, 100 )
-size_flags_horizontal = 0
+margin_left = 50.0
+margin_right = 250.0
+margin_bottom = 70.0
+size_flags_horizontal = 4
 custom_constants/separation = 10
 
 [node name="TemplateSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/TemplateBox"]
 unique_name_in_owner = true
-margin_right = 325.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 250, 40 )
+margin_right = 200.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 0
 size_flags_vertical = 0
 shortcut = SubResource( 9 )
 clip_text = true
@@ -164,58 +163,70 @@ items = [ "", null, false, 0, null ]
 selected = 0
 
 [node name="CreateTemplate" type="Button" parent="LeftPanel/TopLeftBox/TemplateBox"]
-margin_top = 56.0
-margin_right = 325.0
-margin_bottom = 102.0
-rect_min_size = Vector2( 250, 40 )
+margin_top = 40.0
+margin_right = 164.0
+margin_bottom = 70.0
+size_flags_horizontal = 0
 size_flags_vertical = 0
 shortcut = SubResource( 7 )
 text = "Create template"
 
 [node name="HSeparator" type="HSeparator" parent="LeftPanel/TopLeftBox"]
-modulate = Color( 0, 0, 0, 1 )
-margin_top = 122.0
-margin_right = 400.0
-margin_bottom = 126.0
+margin_left = 25.0
+margin_top = 80.0
+margin_right = 275.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
 [node name="FrameSizeSelection" type="OptionButton" parent="LeftPanel/TopLeftBox" groups=["framesize"]]
 unique_name_in_owner = true
-margin_top = 146.0
-margin_right = 325.0
-margin_bottom = 192.0
-rect_min_size = Vector2( 325, 45 )
-size_flags_horizontal = 0
-text = "1:1 (1080x1080)"
+margin_left = 50.0
+margin_top = 94.0
+margin_right = 250.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "1:1 (2160x2160)"
 clip_text = true
 items = [ "1:1 (1080x1080)", null, false, 0, null, "9:16 (1080x1920)", null, false, 1, null, "1:1 (2160x2160)", null, false, 2, null ]
-selected = 0
+selected = 2
 
 [node name="HSeparator2" type="HSeparator" parent="LeftPanel/TopLeftBox"]
-modulate = Color( 0, 0, 0, 1 )
-margin_top = 212.0
-margin_right = 400.0
-margin_bottom = 216.0
+margin_left = 25.0
+margin_top = 134.0
+margin_right = 275.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
 [node name="TextBox" type="VBoxContainer" parent="LeftPanel/TopLeftBox"]
-margin_top = 236.0
-margin_right = 400.0
-margin_bottom = 604.0
-rect_min_size = Vector2( 400, 0 )
-size_flags_horizontal = 0
+margin_top = 148.0
+margin_right = 300.0
+margin_bottom = 468.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="TextEditor" parent="LeftPanel/TopLeftBox/TextBox" instance=ExtResource( 4 )]
 unique_name_in_owner = true
 margin_top = 0.0
-margin_bottom = 256.0
-rect_min_size = Vector2( 350, 0 )
+margin_right = 300.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 300, 0 )
 
 [node name="IncipitSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/TextBox"]
 unique_name_in_owner = true
-margin_top = 266.0
-margin_right = 400.0
-margin_bottom = 312.0
+margin_left = 50.0
+margin_top = 250.0
+margin_right = 250.0
+margin_bottom = 280.0
 rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 clip_text = true
 align = 1
 icon_align = 1
@@ -224,10 +235,13 @@ selected = 0
 
 [node name="ClosingSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/TextBox"]
 unique_name_in_owner = true
-margin_top = 322.0
-margin_right = 400.0
-margin_bottom = 368.0
+margin_left = 50.0
+margin_top = 290.0
+margin_right = 250.0
+margin_bottom = 320.0
 rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 clip_text = true
 align = 1
 icon_align = 1
@@ -235,25 +249,30 @@ items = [ "", null, false, 0, null, "-- INSERT --", null, false, 1, null, ":wq",
 selected = 0
 
 [node name="HSeparator3" type="HSeparator" parent="LeftPanel/TopLeftBox"]
-modulate = Color( 0, 0, 0, 1 )
-margin_top = 624.0
-margin_right = 400.0
-margin_bottom = 628.0
+margin_left = 25.0
+margin_top = 478.0
+margin_right = 275.0
+margin_bottom = 482.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
 [node name="FontBox" type="VBoxContainer" parent="LeftPanel/TopLeftBox"]
-margin_top = 648.0
-margin_right = 400.0
-margin_bottom = 925.0
-rect_min_size = Vector2( 400, 0 )
-size_flags_horizontal = 0
+margin_left = 27.0
+margin_top = 492.0
+margin_right = 272.0
+margin_bottom = 709.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 custom_constants/separation = 10
 
 [node name="FontSizeSpinBox" type="SpinBox" parent="LeftPanel/TopLeftBox/FontBox"]
 unique_name_in_owner = true
-margin_right = 275.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 275, 0 )
-size_flags_horizontal = 0
+margin_left = 79.0
+margin_right = 165.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 min_value = 20.0
 max_value = 300.0
 value = 50.0
@@ -262,53 +281,30 @@ align = 1
 
 [node name="SpacingContainer" parent="LeftPanel/TopLeftBox/FontBox" instance=ExtResource( 6 )]
 unique_name_in_owner = true
-margin_top = 60.0
-margin_right = 272.0
-margin_bottom = 165.0
+margin_left = 34.0
+margin_top = 44.0
+margin_right = 210.0
+margin_bottom = 117.0
 rect_scale = Vector2( 1, 1 )
+size_flags_horizontal = 4
 
 [node name="FontBox" type="VBoxContainer" parent="LeftPanel/TopLeftBox/FontBox"]
-margin_top = 175.0
-margin_right = 400.0
-margin_bottom = 277.0
+margin_top = 127.0
+margin_right = 245.0
+margin_bottom = 217.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 custom_constants/separation = 10
 
-[node name="BoldFontBox" type="HBoxContainer" parent="LeftPanel/TopLeftBox/FontBox/FontBox"]
-margin_right = 304.0
-margin_bottom = 46.0
-size_flags_horizontal = 0
-
-[node name="BoldFontSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox"]
-unique_name_in_owner = true
-margin_right = 150.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 150, 40 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-clip_text = true
-align = 1
-items = [ "", null, false, 0, null ]
-selected = 0
-
-[node name="LoadBoldFont" type="Button" parent="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox"]
-margin_left = 154.0
-margin_right = 304.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 150, 0 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "AddBold"
-
 [node name="FontBox" type="HBoxContainer" parent="LeftPanel/TopLeftBox/FontBox/FontBox"]
-margin_top = 56.0
-margin_right = 304.0
-margin_bottom = 102.0
+margin_right = 244.0
+margin_bottom = 40.0
 size_flags_horizontal = 0
 
 [node name="FontSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/FontBox/FontBox/FontBox"]
 unique_name_in_owner = true
 margin_right = 150.0
-margin_bottom = 46.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 150, 40 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -319,125 +315,110 @@ selected = 0
 
 [node name="LoadFont" type="Button" parent="LeftPanel/TopLeftBox/FontBox/FontBox/FontBox"]
 margin_left = 154.0
-margin_right = 304.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 150, 0 )
+margin_right = 244.0
+margin_bottom = 30.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "AddFont"
 
+[node name="BoldFontBox" type="HBoxContainer" parent="LeftPanel/TopLeftBox/FontBox/FontBox"]
+margin_top = 50.0
+margin_right = 245.0
+margin_bottom = 90.0
+size_flags_horizontal = 0
+
+[node name="BoldFontSelection" type="OptionButton" parent="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox"]
+unique_name_in_owner = true
+margin_right = 150.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 150, 40 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+clip_text = true
+align = 1
+items = [ "", null, false, 0, null ]
+selected = 0
+
+[node name="LoadBoldFont" type="Button" parent="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox"]
+margin_left = 154.0
+margin_right = 245.0
+margin_bottom = 30.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "AddBold"
+
 [node name="HSeparator4" type="HSeparator" parent="LeftPanel/TopLeftBox"]
-modulate = Color( 0, 0, 0, 1 )
-margin_top = 945.0
-margin_right = 400.0
-margin_bottom = 949.0
+margin_left = 25.0
+margin_top = 719.0
+margin_right = 275.0
+margin_bottom = 723.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
 [node name="RightPanel" type="Panel" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -326.0
-margin_top = -16.0
-margin_right = 15.0
-margin_bottom = 16.0
-
-[node name="BottomRightBox" type="VBoxContainer" parent="RightPanel"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -132.5
-margin_top = 24.0
-margin_right = 132.5
-margin_bottom = 276.0
-custom_constants/separation = 20
-alignment = 1
-
-[node name="BlinkingButton" type="CheckButton" parent="RightPanel/BottomRightBox"]
-margin_right = 265.0
-margin_bottom = 48.0
-text = "BLINKING"
-
-[node name="SaveBox" type="VBoxContainer" parent="RightPanel/BottomRightBox"]
-margin_top = 68.0
-margin_right = 265.0
-margin_bottom = 186.0
-custom_constants/separation = 20
-
-[node name="Shrink2Box" type="CheckButton" parent="RightPanel/BottomRightBox/SaveBox"]
-margin_right = 265.0
-margin_bottom = 48.0
-text = "SHRINK2"
-align = 1
-
-[node name="Save" type="Button" parent="RightPanel/BottomRightBox/SaveBox"]
-margin_top = 68.0
-margin_right = 265.0
-margin_bottom = 118.0
-rect_min_size = Vector2( 150, 50 )
-size_flags_vertical = 0
-shortcut = SubResource( 5 )
-text = "SAVE"
-
-[node name="ZoomButtons" parent="RightPanel/BottomRightBox" instance=ExtResource( 5 )]
-margin_top = 206.0
-margin_right = 265.0
-margin_bottom = 252.0
-alignment = 0
+margin_left = -320.0
+rect_min_size = Vector2( 320, 500 )
 
 [node name="TopRightBox" type="VBoxContainer" parent="RightPanel"]
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -153.0
-margin_top = -341.0
-margin_right = 153.0
-margin_bottom = -16.0
-
-[node name="ColorBox" type="VBoxContainer" parent="RightPanel/TopRightBox"]
-margin_right = 306.0
-margin_bottom = 325.0
+margin_left = -125.0
+margin_top = 32.0
+margin_right = 125.0
+margin_bottom = 287.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_constants/separation = 20
+
+[node name="ColorBox" type="VBoxContainer" parent="RightPanel/TopRightBox"]
+margin_right = 250.0
+margin_bottom = 205.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 10
 
 [node name="BackgroundColorSelection" parent="RightPanel/TopRightBox/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 306.0
-margin_bottom = 51.0
+margin_right = 250.0
+margin_bottom = 35.0
 _title = "Background Color"
 
 [node name="FontColorSelection" parent="RightPanel/TopRightBox/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
-margin_top = 71.0
-margin_right = 306.0
-margin_bottom = 122.0
+margin_top = 45.0
+margin_right = 250.0
+margin_bottom = 80.0
 _title = "Font Color"
 
 [node name="SymbolColorSelection" parent="RightPanel/TopRightBox/ColorBox" instance=ExtResource( 1 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
-margin_top = 142.0
-margin_right = 306.0
-margin_bottom = 193.0
+margin_top = 90.0
+margin_right = 250.0
+margin_bottom = 125.0
 _title = "Symbol Color"
 
 [node name="PaletteBox" type="VBoxContainer" parent="RightPanel/TopRightBox/ColorBox"]
-margin_top = 213.0
-margin_right = 306.0
-margin_bottom = 325.0
-custom_constants/separation = 20
+margin_top = 135.0
+margin_right = 250.0
+margin_bottom = 205.0
+custom_constants/separation = 10
 
 [node name="PaletteSelection" type="OptionButton" parent="RightPanel/TopRightBox/ColorBox/PaletteBox"]
 unique_name_in_owner = true
-margin_right = 306.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 250, 40 )
+margin_right = 250.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 0
 size_flags_vertical = 0
 clip_text = true
 align = 1
@@ -445,12 +426,61 @@ items = [ "", null, false, 0, null ]
 selected = 0
 
 [node name="LoadPalette" type="Button" parent="RightPanel/TopRightBox/ColorBox/PaletteBox"]
-margin_top = 66.0
-margin_right = 306.0
-margin_bottom = 112.0
+margin_top = 40.0
+margin_right = 250.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Add Palette"
+
+[node name="BottomRightBox" type="VBoxContainer" parent="RightPanel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -132.0
+margin_top = -216.0
+margin_right = 133.0
+margin_bottom = -16.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="BlinkingButton" type="CheckButton" parent="RightPanel/BottomRightBox"]
+margin_top = 10.0
+margin_right = 265.0
+margin_bottom = 50.0
+text = "BLINKING"
+align = 1
+
+[node name="SaveBox" type="VBoxContainer" parent="RightPanel/BottomRightBox"]
+margin_top = 60.0
+margin_right = 265.0
+margin_bottom = 150.0
+custom_constants/separation = 20
+
+[node name="Shrink2Box" type="CheckButton" parent="RightPanel/BottomRightBox/SaveBox"]
+margin_right = 265.0
+margin_bottom = 40.0
+text = "SHRINK2"
+align = 1
+
+[node name="Save" type="Button" parent="RightPanel/BottomRightBox/SaveBox"]
+margin_left = 32.0
+margin_top = 60.0
+margin_right = 232.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
+shortcut = SubResource( 5 )
+text = "SAVE"
+
+[node name="ZoomButtons" parent="RightPanel/BottomRightBox" instance=ExtResource( 5 )]
+margin_top = 160.0
+margin_right = 265.0
+margin_bottom = 190.0
+alignment = 0
 
 [connection signal="UpdatePalette" from="." to="RightPanel/TopRightBox/ColorBox/BackgroundColorSelection" method="_on_ToolsUI_UpdatePalette"]
 [connection signal="UpdatePalette" from="." to="RightPanel/TopRightBox/ColorBox/FontColorSelection" method="_on_ToolsUI_UpdatePalette"]
@@ -469,16 +499,16 @@ text = "Add Palette"
 [connection signal="item_selected" from="LeftPanel/TopLeftBox/TextBox/ClosingSelection" to="." method="_on_ClosingSelection_item_selected"]
 [connection signal="value_changed" from="LeftPanel/TopLeftBox/FontBox/FontSizeSpinBox" to="." method="_on_FontSize_value_changed"]
 [connection signal="SpacingChanged" from="LeftPanel/TopLeftBox/FontBox/SpacingContainer" to="." method="_on_SpacingContainer_SpacingChanged"]
-[connection signal="item_selected" from="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox/BoldFontSelection" to="." method="_on_BoldFontSelection_item_selected"]
-[connection signal="button_down" from="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox/LoadBoldFont" to="." method="_on_LoadBoldFont_button_down"]
 [connection signal="item_selected" from="LeftPanel/TopLeftBox/FontBox/FontBox/FontBox/FontSelection" to="." method="_on_FontSelection_item_selected"]
 [connection signal="button_down" from="LeftPanel/TopLeftBox/FontBox/FontBox/FontBox/LoadFont" to="." method="_on_LoadFont_button_down"]
-[connection signal="toggled" from="RightPanel/BottomRightBox/BlinkingButton" to="." method="_on_BlinkingButton_toggled"]
-[connection signal="toggled" from="RightPanel/BottomRightBox/SaveBox/Shrink2Box" to="." method="_on_Shrink2Box_toggled"]
-[connection signal="button_down" from="RightPanel/BottomRightBox/SaveBox/Save" to="." method="_on_Save_button_down"]
-[connection signal="Changed" from="RightPanel/BottomRightBox/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]
+[connection signal="item_selected" from="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox/BoldFontSelection" to="." method="_on_BoldFontSelection_item_selected"]
+[connection signal="button_down" from="LeftPanel/TopLeftBox/FontBox/FontBox/BoldFontBox/LoadBoldFont" to="." method="_on_LoadBoldFont_button_down"]
 [connection signal="Selected" from="RightPanel/TopRightBox/ColorBox/BackgroundColorSelection" to="." method="_on_BackgroundColorSelection_Selected"]
 [connection signal="Selected" from="RightPanel/TopRightBox/ColorBox/FontColorSelection" to="." method="_on_FontColorSelection_Selected"]
 [connection signal="Selected" from="RightPanel/TopRightBox/ColorBox/SymbolColorSelection" to="." method="_on_SymbolColorSelection_Selected"]
 [connection signal="item_selected" from="RightPanel/TopRightBox/ColorBox/PaletteBox/PaletteSelection" to="." method="_on_PaletteSelection_item_selected"]
 [connection signal="button_down" from="RightPanel/TopRightBox/ColorBox/PaletteBox/LoadPalette" to="." method="_on_LoadPalette_button_down"]
+[connection signal="toggled" from="RightPanel/BottomRightBox/BlinkingButton" to="." method="_on_BlinkingButton_toggled"]
+[connection signal="toggled" from="RightPanel/BottomRightBox/SaveBox/Shrink2Box" to="." method="_on_Shrink2Box_toggled"]
+[connection signal="button_down" from="RightPanel/BottomRightBox/SaveBox/Save" to="." method="_on_Save_button_down"]
+[connection signal="Changed" from="RightPanel/BottomRightBox/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]

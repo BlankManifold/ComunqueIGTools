@@ -12,7 +12,7 @@ public class PreviewUI : Control
     private Vector2 _maxSize;
     private Vector2 _maxScale;
     private Vector2 _minSize = new Vector2(400, 400);
-    private Vector2 _startSize = new Vector2(1080, 1080);//new Vector2(1080, 1080); //
+    private Vector2 _startSize = new Vector2(2160, 2160);//new Vector2(1080, 1080); //
     private string _symbols = "";
     private string[] _symBbCode = new string[] { "[color=#000000]", "[/color]" };
 
@@ -217,10 +217,12 @@ public class PreviewUI : Control
     }
     public void SavePNG(string path, bool shrink2)
     {
+
         Image img = GetViewport().GetTexture().GetData();
         img.FlipY();
 
-        Image frame = img.GetRect(_backgroundRect.GetRect());
+        Rect2 frameRect = _backgroundRect.GetRect();
+        Image frame = img.GetRect(frameRect);
         //frame.Resize((int)_startSize[0],(int)_startSize[1]);
         if (shrink2)
         {

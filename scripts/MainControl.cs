@@ -63,6 +63,9 @@ public class MainControl : Control
     }
     public void on_ToolsUI_Zoom(bool zoomIn, bool maxime)
     {
+        if (maxime)
+            return;
+            
         Vector2 zoom = _camera.Zoom;
         if (zoomIn)
             zoom /= 1.1f; 

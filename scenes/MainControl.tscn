@@ -5,26 +5,34 @@
 [ext_resource path="res://scripts/MainControl.cs" type="Script" id=4]
 
 [node name="MainControl" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -960.0
+margin_top = -540.0
+margin_right = 960.0
+margin_bottom = 540.0
 script = ExtResource( 4 )
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-follow_viewport_enable = true
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PreviewViewportContainer" type="ViewportContainer" parent="CanvasLayer2"]
+[node name="ToolsUI" parent="CanvasLayer" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+
+[node name="PreviewViewportContainer" type="ViewportContainer" parent="."]
 unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1034.0
+margin_left = -1080.0
 margin_top = -1080.0
-margin_right = 1126.0
+margin_right = 1080.0
 margin_bottom = 1080.0
-rect_min_size = Vector2( 1080, 1080 )
+rect_min_size = Vector2( 400, 400 )
 
-[node name="PreviewViewport" type="Viewport" parent="CanvasLayer2/PreviewViewportContainer"]
+[node name="PreviewViewport" type="Viewport" parent="PreviewViewportContainer"]
 unique_name_in_owner = true
 size = Vector2( 2160, 2160 )
 transparent_bg = true
@@ -36,15 +44,18 @@ usage = 0
 render_target_update_mode = 3
 gui_disable_input = true
 
-[node name="PreviewUI" parent="CanvasLayer2/PreviewViewportContainer/PreviewViewport" instance=ExtResource( 2 )]
+[node name="PreviewUI" parent="PreviewViewportContainer/PreviewViewport" instance=ExtResource( 2 )]
 unique_name_in_owner = true
-rect_pivot_offset = Vector2( 1080, 1080 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 2160.0
+margin_bottom = 2160.0
 
-[node name="Camera2D" type="Camera2D" parent="CanvasLayer2/PreviewViewportContainer/PreviewViewport/PreviewUI"]
+[node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
+position = Vector2( 960, 540 )
 current = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ToolsUI" parent="CanvasLayer" instance=ExtResource( 1 )]
-unique_name_in_owner = true
