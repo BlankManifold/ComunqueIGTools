@@ -230,6 +230,34 @@ public class PreviewUI : Control
         }
         frame.SavePng(path);
     }
+
+    private async void TweenSavingBlink(string dirpath, bool shrink2, int numberOfFrame)
+    {
+        SceneTreeTween tween = CreateTween();
+        tween.TweenCallback(this, "UpdateOnlyBlock", new Godot.Collections.Array() { true }).SetDelay(0f);
+        tween.TweenCallback(this, "SavePNG", new Godot.Collections.Array() { dirpath + "/f0_On.png", shrink2 }).SetDelay(0.3f);
+        tween.TweenCallback(this, "UpdateOnlyBlock", new Godot.Collections.Array() { false }).SetDelay(0.5f);
+        tween.TweenCallback(this, "SavePNG", new Godot.Collections.Array() { dirpath + "/f0_Off.png", shrink2 }).SetDelay(0.8f);
+
+        await ToSignal(tween, "finished");
+
+        Directory dir = new Directory();
+
+        for (int i = 1; i < numberOfFrame; i++)
+        {
+            dir.Copy(dirpath + "/f0_On.png", dirpath + $"/f{i}_On.png");
+            dir.Copy(dirpath + "/f0_Off.png", dirpath + $"/f{i}_Off.png");
+        }
+
+    }
+    public void SaveBlinking(string dirpath, bool shrink2, int numberOfFrame)
+    {
+        TweenSavingBlink(dirpath, shrink2, numberOfFrame);
+        
+
+       
+    }
+
     public void BlinkAnimation(bool blinkingOn)
     {
         if (blinkingOn)

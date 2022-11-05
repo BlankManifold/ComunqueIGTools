@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/PreviewUI.cs" type="Script" id=2]
 
@@ -25,6 +25,32 @@ tracks/0/keys = {
 }, {
 "args": [ true ],
 "method": "UpdateOnlyBlock"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "BlinkingBlockSave"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [ true ],
+"method": "UpdateOnlyBlock"
+}, {
+"args": [ "1.png", false ],
+"method": "SavePNG"
+}, {
+"args": [ false ],
+"method": "UpdateOnlyBlock"
+}, {
+"args": [ "2.png", false ],
+"method": "SavePNG"
 } ]
 }
 
@@ -69,3 +95,4 @@ override_selected_font_color = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 anims/BlinkingBlock = SubResource( 2 )
+anims/BlinkingBlockSave = SubResource( 3 )

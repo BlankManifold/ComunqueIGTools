@@ -440,23 +440,22 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -132.0
-margin_top = -216.0
+margin_top = -248.0
 margin_right = 133.0
-margin_bottom = -16.0
+margin_bottom = -18.0
 custom_constants/separation = 10
 alignment = 1
 
 [node name="BlinkingButton" type="CheckButton" parent="RightPanel/BottomRightBox"]
-margin_top = 10.0
 margin_right = 265.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 text = "BLINKING"
 align = 1
 
 [node name="SaveBox" type="VBoxContainer" parent="RightPanel/BottomRightBox"]
-margin_top = 60.0
+margin_top = 50.0
 margin_right = 265.0
-margin_bottom = 150.0
+margin_bottom = 194.0
 custom_constants/separation = 20
 
 [node name="Shrink2Box" type="CheckButton" parent="RightPanel/BottomRightBox/SaveBox"]
@@ -476,16 +475,40 @@ size_flags_vertical = 0
 shortcut = SubResource( 5 )
 text = "SAVE"
 
-[node name="ZoomButtons" parent="RightPanel/BottomRightBox" instance=ExtResource( 5 )]
-margin_top = 160.0
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/BottomRightBox/SaveBox"]
+margin_top = 110.0
 margin_right = 265.0
-margin_bottom = 190.0
+margin_bottom = 144.0
+
+[node name="FramesSpinBox" type="SpinBox" parent="RightPanel/BottomRightBox/SaveBox/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 86.0
+margin_bottom = 34.0
+min_value = 1.0
+max_value = 60.0
+value = 1.0
+rounded = true
+
+[node name="SaveBlink" type="Button" parent="RightPanel/BottomRightBox/SaveBox/HBoxContainer"]
+margin_left = 90.0
+margin_right = 240.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "SAVE BLINK"
+
+[node name="ZoomButtons" parent="RightPanel/BottomRightBox" instance=ExtResource( 5 )]
+margin_top = 204.0
+margin_right = 265.0
+margin_bottom = 234.0
 alignment = 0
 
 [connection signal="UpdatePalette" from="." to="RightPanel/TopRightBox/ColorBox/BackgroundColorSelection" method="_on_ToolsUI_UpdatePalette"]
 [connection signal="UpdatePalette" from="." to="RightPanel/TopRightBox/ColorBox/FontColorSelection" method="_on_ToolsUI_UpdatePalette"]
 [connection signal="UpdatePalette" from="." to="RightPanel/TopRightBox/ColorBox/SymbolColorSelection" method="_on_ToolsUI_UpdatePalette"]
 [connection signal="confirmed" from="FileDialog" to="." method="_on_FileDialog_confirmed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_FileDialog_dir_selected"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
 [connection signal="files_selected" from="FileDialog" to="." method="_on_FileDialog_files_selected"]
 [connection signal="text_entered" from="TemplateNamePanel/VBoxContainer/TemeplateName" to="." method="_on_TemeplateName_text_entered"]
@@ -511,4 +534,5 @@ alignment = 0
 [connection signal="toggled" from="RightPanel/BottomRightBox/BlinkingButton" to="." method="_on_BlinkingButton_toggled"]
 [connection signal="toggled" from="RightPanel/BottomRightBox/SaveBox/Shrink2Box" to="." method="_on_Shrink2Box_toggled"]
 [connection signal="button_down" from="RightPanel/BottomRightBox/SaveBox/Save" to="." method="_on_Save_button_down"]
+[connection signal="button_down" from="RightPanel/BottomRightBox/SaveBox/HBoxContainer/SaveBlink" to="." method="_on_SaveBlink_button_down"]
 [connection signal="Changed" from="RightPanel/BottomRightBox/ZoomButtons" to="." method="_on_ZoomButtons_Changed"]

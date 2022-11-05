@@ -23,7 +23,7 @@ public class ToolsUI : Control
 {
     public enum FileDialogMode
     {
-        TXT, PALETTE, SAVE_PNG, TXTS, FONT, BOLDFONT
+        TXT, PALETTE, SAVE_PNG, TXTS, FONT, BOLDFONT, SAVE_BLINKING
     }
 
     [Export]
@@ -85,6 +85,8 @@ public class ToolsUI : Control
     delegate void BoldFontSelected(string path);
     [Signal]
     delegate void Save(string path, bool shrink2);
+    [Signal]
+    delegate void SaveBlinking(string dirpath, bool shrink2, int numberOfFrame);
     [Signal]
     delegate void BlinkingPressed(bool blinkingOn);
 
@@ -178,6 +180,9 @@ public class ToolsUI : Control
             case Globals.Tool.SAVE:
                 Connect(nameof(Save), nodeToConnect, targetMethod);
                 break;
+            case Globals.Tool.SAVEBLINKING:
+                Connect(nameof(SaveBlinking), nodeToConnect, targetMethod);
+                break;
             case Globals.Tool.BLINKING:
                 Connect(nameof(BlinkingPressed), nodeToConnect, targetMethod);
                 break;
@@ -251,6 +256,12 @@ public class ToolsUI : Control
                 _fileDialog.Mode = FileDialog.ModeEnum.SaveFile;
                 _fileDialog.WindowTitle = "Save the comunque as a PNG";
                 _fileDialog.Filters = new string[] { Globals.RESOURCE_EXT.PNG };
+                break;
+            case FileDialogMode.SAVE_BLINKING:
+                _fileDialog.Mode = FileDialog.ModeEnum.OpenDir;
+                _fileDialog.CurrentDir = "";
+                _fileDialog.WindowTitle = "Select a dir destination";
+                _fileDialog.Filters = new string[] {};
                 break;
             case FileDialogMode.FONT:
             case FileDialogMode.BOLDFONT:
@@ -493,6 +504,14 @@ public class ToolsUI : Control
             EmitSignal(nameof(Save), _fileDialog.CurrentPath, _shrink2);
         }
     }
+    public void _on_FileDialog_dir_selected(string dirpath)
+    {
+        if (_fileDialogMode == FileDialogMode.SAVE_BLINKING)
+        {
+            int numberOfFrame = (int)GetNode<SpinBox>("%FramesSpinBox").Value;
+            EmitSignal(nameof(SaveBlinking), dirpath, _shrink2, numberOfFrame);
+        }
+    }
 
     ///////////////////////////////////////////////////////////
     // TEXT   /////////////////////////////////////////////////
@@ -568,6 +587,11 @@ public class ToolsUI : Control
     public void _on_BlinkingButton_toggled(bool blinkingOn)
     {
         EmitSignal(nameof(BlinkingPressed), blinkingOn);
+    }
+    public void _on_SaveBlink_button_down()
+    {
+        UpdateFileDialogFilters(FileDialogMode.SAVE_BLINKING);
+        _fileDialog.Popup_();
     }
 }
 

@@ -27,6 +27,7 @@ public class MainControl : Control
         _toolsUI.ConnectTool(this, Globals.Tool.ZOOM, nameof(on_ToolsUI_Zoom));
         _toolsUI.ConnectTool(this, Globals.Tool.SAVE, nameof(on_ToolsUI_Save));
         _toolsUI.ConnectTool(this, Globals.Tool.BLINKING, nameof(on_ToolsUI_BlinkingPressed));
+        _toolsUI.ConnectTool(this, Globals.Tool.SAVEBLINKING, nameof(on_ToolsUI_SaveBlinking));
     }
 
     public void on_ToolsUI_SizeChanged(Vector2 ratioVec)
@@ -65,19 +66,23 @@ public class MainControl : Control
     {
         if (maxime)
             return;
-            
+
         Vector2 zoom = _camera.Zoom;
         if (zoomIn)
-            zoom /= 1.1f; 
+            zoom /= 1.1f;
         else
-            zoom *= 1.1f; 
-        
+            zoom *= 1.1f;
+
         if (zoom[0] >= _maxZoom[0] && zoom[1] <= _maxZoom[1])
             _camera.Zoom = zoom;
     }
     public void on_ToolsUI_Save(string path, bool shrink2)
     {
         _previewUI.SavePNG(path, shrink2);
+    }
+    public void on_ToolsUI_SaveBlinking(string dirpath, bool shrink2, int numberOfFrame)
+    {
+        _previewUI.SaveBlinking(dirpath, shrink2, numberOfFrame);
     }
     public void on_ToolsUI_BlinkingPressed(bool blinkingOn)
     {
